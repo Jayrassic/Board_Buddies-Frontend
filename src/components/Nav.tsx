@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useLogout } from "../hooks/useLogout";
 
 export default function Nav(): React.JSX.Element {
   const { user } = useAuthContext();
+  const { logout } = useLogout();
+
+  function logoutHandler(): void {
+    logout();
+  }
 
   return (
     <header>
@@ -11,7 +17,9 @@ export default function Nav(): React.JSX.Element {
         {user && (
           <>
             <p>Welcome {user.email}</p>
-            <Link to="#">LogOut</Link>
+            <Link to="/" onClick={logoutHandler}>
+              LogOut
+            </Link>
           </>
         )}
 
