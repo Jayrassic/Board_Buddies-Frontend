@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 
-export default function LoginPage() {
+export default function LoginPage(): React.JSX.Element {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, isLoading, error } = useLogin();
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.MouseEvent) {
     e.preventDefault();
     await login(email, password);
   }
