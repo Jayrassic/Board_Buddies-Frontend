@@ -25,7 +25,7 @@ export default function Nav(): React.JSX.Element {
 
         {!user && (
           <>
-            <Link to="#">Create Account</Link>
+            <Link to="/create_account">Create Account</Link>
             <Link to="/login">Log In</Link>
           </>
         )}
