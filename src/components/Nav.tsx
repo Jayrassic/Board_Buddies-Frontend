@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function Nav(): React.JSX.Element {
@@ -10,14 +11,14 @@ export default function Nav(): React.JSX.Element {
         {user && (
           <>
             <p>Welcome {user.email}</p>
-            <a href="#">LogOut</a>
+            <Link to="#">LogOut</Link>
           </>
         )}
 
         {!user && (
           <>
-            <a href="#">Create Account</a>
-            <a href="#">Log In</a>
+            <Link to="#">Create Account</Link>
+            <Link to="/login">Log In</Link>
           </>
         )}
       </nav>
