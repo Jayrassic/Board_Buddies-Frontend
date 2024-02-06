@@ -1,24 +1,27 @@
-import { FC, ReactNode, createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 interface UserInterface {
-  user: object;
+  user: object | null;
 }
 
-interface NullInterface {
-  user: null;
-}
+// interface NullInterface {
+//   user: null;
+// }
 
 const initialState = { user: null };
 
-type StateType = { user: null } | { user: UserInterface };
+// type StateType = { user: null } | { user: UserInterface };
 
 type ACTIONTYPE =
   | { type: "LOGIN"; payload: UserInterface }
-  | { type: "LOGOUT"; payload: NullInterface };
+  | { type: "LOGOUT"; payload: UserInterface };
 
-export const AuthContext = createContext(initialState);
+export const AuthContext = createContext<UserInterface>(initialState);
 
-export function authReducer(state: typeof initialState, action: ACTIONTYPE) {
+export function authReducer(
+  state: UserInterface,
+  action: ACTIONTYPE
+): UserInterface {
   switch (action.type) {
     case "LOGIN":
       return { user: action.payload };
