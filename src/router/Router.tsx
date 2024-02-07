@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainView from "../views/Main";
-import TestHome from "../views/TestHome";
+import AllGamesList from "../views/AllGamesList";
 import LoginPage from "../views/Login";
 import CreateAccount from "../views/CreateAccount";
 
@@ -12,7 +12,7 @@ export default function Router() {
       children: [
         {
           path: "/",
-          element: <TestHome />,
+          element: <AllGamesList />,
         },
         {
           path: "/login",
