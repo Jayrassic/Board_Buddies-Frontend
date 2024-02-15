@@ -3,6 +3,9 @@ import { useGamesContext } from "../hooks/useGamesContext";
 import GameTable from "../components/GameTable";
 import sortReducer from "../utils/sortReducer";
 import { GamesType } from "../models/global";
+import { useAuthContext } from "../hooks/useAuthContext";
+import LoginPage from "./Login";
+import { useParams } from "react-router-dom";
 
 export default function AllGamesList() {
   const { games, dispatch } = useGamesContext();
@@ -16,30 +19,57 @@ export default function AllGamesList() {
 
   const [sortedGames, sortDispatch] = useReducer(sortReducer, games);
   const [displayedGames, setDisplayedGames] = useState(games);
+  const { user } = useAuthContext();
 
+  const { id } = useParams();
   // Fetches games list from API
   useEffect(() => {
     async function fetchGames() {
-      try {
-        const response = await fetch("http://localhost:3000/games/");
-        const json = await response.json();
+      if (id !== undefined) {
+        try {
+          const response = await fetch(`http://localhost:3000/games/${id}`, {
+            headers: { Authorization: `Bearer ${user.token}` },
+          });
+          const json = await response.json();
 
-        if (!response.ok) {
+          if (response.ok) {
+            setError(null);
+            dispatch({ type: "SET_GAMES", payload: json });
+            setIsLoading(false);
+          }
+        } catch (err) {
+          if (user === null) {
+            console.log(user);
+            const newError = new Error("Please log in");
+            setError(newError);
+            setIsLoading(false);
+            return;
+          }
           setIsLoading(false);
-          setError(json);
+          setError(err as Error);
         }
+      } else {
+        try {
+          const response = await fetch("http://localhost:3000/games/");
+          const json = await response.json();
 
-        if (response.ok) {
-          dispatch({ type: "SET_GAMES", payload: json });
+          if (!response.ok) {
+            setIsLoading(false);
+            setError(json);
+          }
+
+          if (response.ok) {
+            dispatch({ type: "SET_GAMES", payload: json });
+            setIsLoading(false);
+          }
+        } catch (err) {
           setIsLoading(false);
+          setError(err as Error);
         }
-      } catch (err) {
-        setIsLoading(false);
-        setError(err as Error);
       }
     }
     fetchGames();
-  }, [dispatch]);
+  }, [dispatch, id, user]);
 
   // Sets dispatch once games has loaded
   useEffect(() => {
@@ -177,7 +207,7 @@ export default function AllGamesList() {
           {games &&
             allOwners().map((value) => {
               return (
-                <>
+                <div key={value}>
                   <label htmlFor={value}>{value}</label>
                   <input
                     type="checkbox"
@@ -185,7 +215,7 @@ export default function AllGamesList() {
                     id={value}
                     onClick={(e) => changeNames(e)}
                   />
-                </>
+                </div>
               );
             })}
         </div>
