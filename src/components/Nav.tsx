@@ -12,7 +12,7 @@ export default function Nav(): React.JSX.Element {
 
   return (
     <header>
-      <p>Board buddies</p>
+      <Link to="/">Board buddies</Link>
       <nav>
         {user && (
           <>
@@ -20,6 +20,7 @@ export default function Nav(): React.JSX.Element {
             <Link to="/" onClick={logoutHandler}>
               LogOut
             </Link>
+            <Link to={`/${user.userName}`}>Your Games</Link>
           </>
         )}
 
