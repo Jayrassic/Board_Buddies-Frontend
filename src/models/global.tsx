@@ -20,4 +20,5 @@ export type GamesType = {
 export type UserTokenType = {
   email: string;
   token: string;
+  userName: string;
 };
