@@ -1,36 +1,14 @@
 import { createContext, useEffect, useReducer } from "react";
+import { authReducer } from "../utils/authReducer";
+import { UserTokenType } from "../models/global";
 
 interface UserInterface {
-  user: object | null;
+  user: UserTokenType | null;
 }
-
-// interface NullInterface {
-//   user: null;
-// }
 
 const initialState = { user: null };
 
-// type StateType = { user: null } | { user: UserInterface };
-
-type ACTIONTYPE =
-  | { type: "LOGIN"; payload: UserInterface }
-  | { type: "LOGOUT"; payload: UserInterface };
-
 export const AuthContext = createContext<UserInterface>(initialState);
-
-export function authReducer(
-  state: UserInterface,
-  action: ACTIONTYPE
-): UserInterface {
-  switch (action.type) {
-    case "LOGIN":
-      return { user: action.payload };
-    case "LOGOUT":
-      return { user: null };
-    default:
-      return state;
-  }
-}
 
 type ChildrenProps = { children: React.ReactNode };
 
