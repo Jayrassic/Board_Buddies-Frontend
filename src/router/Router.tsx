@@ -3,7 +3,6 @@ import MainView from "../views/Main";
 import AllGamesList from "../views/AllGamesList";
 import LoginPage from "../views/Login";
 import CreateAccount from "../views/CreateAccount";
-import AuthTest from "../views/AuthTest";
 
 export default function Router() {
   const router = createBrowserRouter([
