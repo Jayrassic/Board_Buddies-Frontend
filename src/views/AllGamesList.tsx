@@ -2,9 +2,10 @@ import { useEffect, useReducer, useState, useMemo, useCallback } from "react";
 import { useGamesContext } from "../hooks/useGamesContext";
 import GameTable from "../components/GameTable";
 import sortReducer from "../utils/sortReducer";
+import BGGSearch from "../components/BGG_SearchTest";
 import { GamesType } from "../models/global";
 import { useAuthContext } from "../hooks/useAuthContext";
-import LoginPage from "./Login";
+
 import { useParams } from "react-router-dom";
 
 export default function AllGamesList() {
@@ -241,6 +242,7 @@ export default function AllGamesList() {
       {isLoading && <h1>Loading</h1>}
       {error && <h1>{error.message}</h1>}
       {displayedGames && <GameTable data={displayedGames} />}
+      {id && <BGGSearch />}
     </div>
   );
 }
