@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { parseBggXmlApi2SearchResponse } from "@code-bucket/board-game-geek";
+import { Link } from "react-router-dom";
 
 export default function BGGSearch() {
   const [query, setQuery] = useState<string>("");
@@ -33,7 +34,11 @@ export default function BGGSearch() {
       />
       {searchData &&
         searchData.map((game) => {
-          return <p>{game.name}</p>;
+          return (
+            <Link to={`/game/${game.id}`}>
+              <p>{game.name}</p>
+            </Link>
+          );
         })}
     </div>
   );
