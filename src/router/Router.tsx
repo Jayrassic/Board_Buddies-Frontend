@@ -3,6 +3,7 @@ import MainView from "../views/Main";
 import AllGamesList from "../views/AllGamesList";
 import LoginPage from "../views/Login";
 import CreateAccount from "../views/CreateAccount";
+import GameDetails from "../views/GameDetails";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -23,8 +24,12 @@ export default function Router() {
           element: <CreateAccount />,
         },
         {
-          path: "/:id",
+          path: "/user/:id",
           element: <AllGamesList />,
+        },
+        {
+          path: "/game/:id",
+          element: <GameDetails />,
         },
       ],
     },

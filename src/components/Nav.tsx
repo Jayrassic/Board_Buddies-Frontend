@@ -20,7 +20,7 @@ export default function Nav(): React.JSX.Element {
             <Link to="/" onClick={logoutHandler}>
               LogOut
             </Link>
-            <Link to={`/${user.userName}`}>Your Games</Link>
+            <Link to={`/user/${user.userName}`}>Your Games</Link>
           </>
         )}
 
