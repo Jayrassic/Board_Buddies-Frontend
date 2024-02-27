@@ -1,6 +1,7 @@
 import { GamesType } from "../models/global";
 import { useGamesContext } from "../hooks/useGamesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useParams } from "react-router-dom";
 
 export default function GameTable({
   data,
@@ -9,6 +10,7 @@ export default function GameTable({
 }): React.JSX.Element {
   const { user } = useAuthContext();
   const { dispatch } = useGamesContext();
+  const { id } = useParams();
 
   const handleClick = async (data) => {
     console.log(data);
@@ -47,7 +49,9 @@ export default function GameTable({
                 <th>{game.minPlayers}</th>
                 <th>{game.maxPlayers}</th>
               </tr>
-              <button onClick={() => handleClick(game)}>Delete</button>
+              {user && id && (
+                <button onClick={() => handleClick(game)}>Delete</button>
+              )}
             </>
           );
         })}
