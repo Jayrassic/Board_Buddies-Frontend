@@ -220,6 +220,7 @@ export default function AllGamesList() {
           <form>
             <div className="name">
               {games &&
+                !id &&
                 allOwners().map((value) => {
                   return (
                     <div key={value}>
