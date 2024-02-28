@@ -26,29 +26,38 @@ export default function AllGamesList() {
   // Fetches games list from API
   useEffect(() => {
     async function fetchGames() {
+      setError(null);
+      setIsLoading(true);
+      dispatch({ type: "SET_GAMES", payload: null });
       if (id !== undefined) {
-        try {
-          const response = await fetch(`http://localhost:3000/games/${id}`, {
-            headers: { Authorization: `Bearer ${user.token}` },
-          });
-          const json = await response.json();
+        // try {
+        const response = await fetch(`http://localhost:3000/games/${id}`, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        const json = await response.json();
 
-          if (response.ok) {
-            setError(null);
-            dispatch({ type: "SET_GAMES", payload: json });
-            setIsLoading(false);
-          }
-        } catch (err) {
-          if (user === null) {
-            console.log(user);
-            const newError = new Error("Please log in");
-            setError(newError);
-            setIsLoading(false);
-            return;
-          }
+        if (response.status === 401 || response.status === 404) {
+          console.log(json);
+          setError(json);
           setIsLoading(false);
-          setError(err as Error);
         }
+
+        if (response.ok) {
+          setError(null);
+          dispatch({ type: "SET_GAMES", payload: json });
+          setIsLoading(false);
+        }
+        // } catch (err) {
+        //   if (user === null) {
+        //     const newError = new Error("Please log in");
+        //     setError(newError);
+        //     setIsLoading(false);
+        //     return;
+        //   }
+        //   console.log("Now Here");
+        //   setIsLoading(false);
+        //   setError(err as Error);
+        // }
       } else {
         try {
           const response = await fetch("http://localhost:3000/games/");
@@ -60,6 +69,7 @@ export default function AllGamesList() {
           }
 
           if (response.ok) {
+            setError(null);
             dispatch({ type: "SET_GAMES", payload: json });
             setIsLoading(false);
           }
@@ -191,57 +201,61 @@ export default function AllGamesList() {
   return (
     <div>
       <h2>All Games</h2>
-      <label htmlFor="sort">Sort: </label>
-      <select name="sort" id="sort" onChange={(e) => sortHandler(e)}>
-        <option value="">Please choose</option>
-        <option value="Game Ascend">Game A-Z</option>
-        <option value="Game Descend">Game Z-A</option>
-        <option value="Owner Ascend">Owner A-Z</option>
-        <option value="Owner Descend">Owner Z-A</option>
-        <option value="Min Ascend">Min 1-9</option>
-        <option value="Min Descend">Min 9-1</option>
-        <option value="Max Ascend">Max 1-9</option>
-        <option value="Max Descend">Max 9-1</option>
-      </select>
-      <form>
-        <div className="name">
-          {games &&
-            allOwners().map((value) => {
-              return (
-                <div key={value}>
-                  <label htmlFor={value}>{value}</label>
-                  <input
-                    type="checkbox"
-                    name={value}
-                    id={value}
-                    onClick={(e) => changeNames(e)}
-                  />
-                </div>
-              );
-            })}
-        </div>
-        <div>
-          <label htmlFor="search">Search Game Names: </label>
-          <input
-            type="text"
-            name="search"
-            id="search"
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <label htmlFor="number">Number of Players: </label>
-          <input
-            type="number"
-            name="number"
-            id="number"
-            onChange={(e) => setPlayerNumber(+e.target.value)}
-            min="0"
-            max="20"
-          />
-        </div>
-      </form>
       {isLoading && <h1>Loading</h1>}
       {error && <h1>{error.message}</h1>}
-      {displayedGames && <GameTable data={displayedGames} />}
+      {displayedGames && (
+        <>
+          <label htmlFor="sort">Sort: </label>
+          <select name="sort" id="sort" onChange={(e) => sortHandler(e)}>
+            <option value="">Please choose</option>
+            <option value="Game Ascend">Game A-Z</option>
+            <option value="Game Descend">Game Z-A</option>
+            <option value="Owner Ascend">Owner A-Z</option>
+            <option value="Owner Descend">Owner Z-A</option>
+            <option value="Min Ascend">Min 1-9</option>
+            <option value="Min Descend">Min 9-1</option>
+            <option value="Max Ascend">Max 1-9</option>
+            <option value="Max Descend">Max 9-1</option>
+          </select>
+          <form>
+            <div className="name">
+              {games &&
+                allOwners().map((value) => {
+                  return (
+                    <div key={value}>
+                      <label htmlFor={value}>{value}</label>
+                      <input
+                        type="checkbox"
+                        name={value}
+                        id={value}
+                        onClick={(e) => changeNames(e)}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+            <div>
+              <label htmlFor="search">Search Game Names: </label>
+              <input
+                type="text"
+                name="search"
+                id="search"
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <label htmlFor="number">Number of Players: </label>
+              <input
+                type="number"
+                name="number"
+                id="number"
+                onChange={(e) => setPlayerNumber(+e.target.value)}
+                min="0"
+                max="20"
+              />
+            </div>
+          </form>
+          <GameTable data={displayedGames} />
+        </>
+      )}
       {id && <BGGSearch />}
     </div>
   );
