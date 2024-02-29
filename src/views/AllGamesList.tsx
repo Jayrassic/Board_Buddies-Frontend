@@ -47,17 +47,6 @@ export default function AllGamesList() {
           dispatch({ type: "SET_GAMES", payload: json });
           setIsLoading(false);
         }
-        // } catch (err) {
-        //   if (user === null) {
-        //     const newError = new Error("Please log in");
-        //     setError(newError);
-        //     setIsLoading(false);
-        //     return;
-        //   }
-        //   console.log("Now Here");
-        //   setIsLoading(false);
-        //   setError(err as Error);
-        // }
       } else {
         try {
           const response = await fetch("http://localhost:3000/games/");
