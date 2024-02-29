@@ -30,24 +30,26 @@ export default function GameTable({
   };
 
   return (
-    <table>
+    <table className="table table-striped table-bordered table-hover">
       <caption>Games Here</caption>
 
-      <tbody>
+      <thead className="table-dark">
         <tr>
           <th>Game</th>
           <th>Owner</th>
-          <th>Min Players</th>
-          <th>Max Players</th>
+          <th className="col-2">Min Players</th>
+          <th className="col-2">Max Players</th>
         </tr>
+      </thead>
+      <tbody>
         {data.map((game) => {
           return (
             <>
               <tr key={game._id + game.owner._id}>
-                <th>{game.name}</th>
-                <th>{game.owner.userName}</th>
-                <th>{game.minPlayers}</th>
-                <th>{game.maxPlayers}</th>
+                <td>{game.name}</td>
+                <td>{game.owner.userName}</td>
+                <td>{game.minPlayers}</td>
+                <td>{game.maxPlayers}</td>
               </tr>
               {user && id && (
                 <button onClick={() => handleClick(game)}>Delete</button>
