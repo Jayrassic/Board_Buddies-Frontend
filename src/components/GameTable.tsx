@@ -31,8 +31,6 @@ export default function GameTable({
 
   return (
     <table className="table table-striped table-bordered">
-      <caption>Games Here</caption>
-
       <thead className="table-dark">
         <tr>
           <th>Game</th>
