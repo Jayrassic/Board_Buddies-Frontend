@@ -75,22 +75,50 @@ export default function GameDetails() {
 
   return (
     <section>
+      {console.log(gameData)}
       {isLoading && <h1>Loading...</h1>}
       {gameData && (
-        <>
-          {console.log(gameData)}
+        <div className="container">
           <h1>{gameData.names[0].value}</h1>
-          <img src={gameData.thumbnail} alt="" />
-          <p>
-            {gameData.description
-              .replace(/&quot;/g, '"')
-              .replace(/&#10;/g, "\r\n")}
-          </p>
+          <img
+            className="img-fluid rounded col-5"
+            src={gameData.image}
+            alt=""
+          />
+          <div className="pt-3 col-9">
+            <p>
+              <span className="fw-bold">Minimum Players: </span>
+              {gameData.minplayers}
+            </p>
+            <p>
+              <span className="fw-bold">Maximum Players: </span>
+              {gameData.maxplayers}
+            </p>
+            <p>
+              <span className="fw-bold">Playtime: </span>
+              {gameData.playingtime} mins
+            </p>
+            <p className="mb-0">
+              <span className="fw-bold">Description: </span>
+            </p>
+            <p>
+              {gameData.description
+                .replace(/&quot;/g, '"')
+                .replace(/&#10;/g, "\r\n")
+                .replace(/&rsquo;/g, "'")}
+            </p>
+          </div>
           {user && (
-            <button onClick={(e) => handleAdd(e)}>Add Game to your list</button>
+            <button
+              className="btn btn-primary btn-lg"
+              type="button"
+              onClick={(e) => handleAdd(e)}
+            >
+              Add Game to your list
+            </button>
           )}
           {error && <h2>{error}</h2>}
-        </>
+        </div>
       )}
     </section>
   );
