@@ -29,9 +29,13 @@ export default function Nav(): React.JSX.Element {
       )}
 
       {!user && (
-        <div>
-          <Link to="/create_account">Create Account</Link>
-          <Link to="/login">Log In</Link>
+        <div className="d-flex align-items-center gap-4">
+          <Link className="nav-link" to="/create_account">
+            Create Account
+          </Link>
+          <Link className="nav-link" to="/login">
+            Log In
+          </Link>
         </div>
       )}
     </nav>
