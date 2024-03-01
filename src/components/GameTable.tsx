@@ -30,13 +30,14 @@ export default function GameTable({
   };
 
   return (
-    <table className="table table-striped table-bordered">
+    <table className=" table table-striped table-bordered">
       <thead className="table-dark">
         <tr>
           <th>Game</th>
-          <th>Owner</th>
+          {!id && <th className="col-2">Owner</th>}
           <th className="col-2">Min Players</th>
           <th className="col-2">Max Players</th>
+          {id && <th className="col-1">Delete</th>}
         </tr>
       </thead>
       <tbody>
@@ -45,13 +46,15 @@ export default function GameTable({
             <>
               <tr key={game._id + game.owner._id}>
                 <td>{game.name}</td>
-                <td>{game.owner.userName}</td>
+                {!id && <td>{game.owner.userName}</td>}
                 <td>{game.minPlayers}</td>
                 <td>{game.maxPlayers}</td>
+                {user && id && (
+                  <td>
+                    <button onClick={() => handleClick(game)}>Delete</button>
+                  </td>
+                )}
               </tr>
-              {user && id && (
-                <button onClick={() => handleClick(game)}>Delete</button>
-              )}
             </>
           );
         })}

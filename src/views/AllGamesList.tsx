@@ -193,58 +193,99 @@ export default function AllGamesList() {
       {isLoading && <h1>Loading</h1>}
       {error && <h1>{error.message}</h1>}
       {displayedGames && (
-        <>
-          <label htmlFor="sort">Sort: </label>
-          <select name="sort" id="sort" onChange={(e) => sortHandler(e)}>
-            <option value="">Please choose</option>
-            <option value="Game Ascend">Game A-Z</option>
-            <option value="Game Descend">Game Z-A</option>
-            <option value="Owner Ascend">Owner A-Z</option>
-            <option value="Owner Descend">Owner Z-A</option>
-            <option value="Min Ascend">Min 1-9</option>
-            <option value="Min Descend">Min 9-1</option>
-            <option value="Max Ascend">Max 1-9</option>
-            <option value="Max Descend">Max 9-1</option>
-          </select>
-          <form>
-            <div className="name">
-              {games &&
-                !id &&
-                allOwners().map((value) => {
-                  return (
-                    <div key={value}>
-                      <label htmlFor={value}>{value}</label>
-                      <input
-                        type="checkbox"
-                        name={value}
-                        id={value}
-                        onClick={(e) => changeNames(e)}
-                      />
-                    </div>
-                  );
-                })}
+        <div className="accordion">
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#filter"
+                aria-expanded="false"
+                aria-controls="filter"
+              >
+                Filters
+              </button>
+            </h2>
+            <div
+              id="filter"
+              className="accordion-collapse collapse collapse"
+              // data-bs-parent="#accordionExample"
+            >
+              <form className="accordion-body">
+                <label htmlFor="sort" className="form-label">
+                  Sort:{" "}
+                </label>
+                <select
+                  name="sort"
+                  id="sort"
+                  className="form-select"
+                  onChange={(e) => sortHandler(e)}
+                >
+                  <option value="">Please choose</option>
+                  <option value="Game Ascend">Game A-Z</option>
+                  <option value="Game Descend">Game Z-A</option>
+                  <option value="Owner Ascend">Owner A-Z</option>
+                  <option value="Owner Descend">Owner Z-A</option>
+                  <option value="Min Ascend">Min 1-9</option>
+                  <option value="Min Descend">Min 9-1</option>
+                  <option value="Max Ascend">Max 1-9</option>
+                  <option value="Max Descend">Max 9-1</option>
+                </select>
+                {games && !id && (
+                  <label className="form-label" htmlFor="checkbox">
+                    Sort by Owner:
+                  </label>
+                )}
+                <div className="form-check">
+                  {games &&
+                    !id &&
+                    allOwners().map((value) => {
+                      return (
+                        <div key={value}>
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            name={value}
+                            id={value}
+                            onClick={(e) => changeNames(e)}
+                          />
+                          <label className="form-check-label" htmlFor={value}>
+                            {value}
+                          </label>
+                        </div>
+                      );
+                    })}
+                </div>
+                <div>
+                  <label className="form-label" htmlFor="search">
+                    Search Game Names:{" "}
+                  </label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="search"
+                    id="search"
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                  <label className="form-label" htmlFor="number">
+                    Number of Players:{" "}
+                  </label>
+                  <input
+                    className="form-control"
+                    type="number"
+                    name="number"
+                    id="number"
+                    onChange={(e) => setPlayerNumber(+e.target.value)}
+                    min="1"
+                    max="20"
+                  />
+                </div>
+              </form>
             </div>
-            <div>
-              <label htmlFor="search">Search Game Names: </label>
-              <input
-                type="text"
-                name="search"
-                id="search"
-                onChange={(e) => setQuery(e.target.value)}
-              />
-              <label htmlFor="number">Number of Players: </label>
-              <input
-                type="number"
-                name="number"
-                id="number"
-                onChange={(e) => setPlayerNumber(+e.target.value)}
-                min="0"
-                max="20"
-              />
-            </div>
-          </form>
+          </div>
           <GameTable data={displayedGames} />
-        </>
+        </div>
       )}
       {id && <BGGSearch />}
     </div>
