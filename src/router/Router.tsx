@@ -1,11 +1,18 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import MainView from "../views/Main";
 import AllGamesList from "../views/AllGamesList";
 import LoginPage from "../views/Login";
 import CreateAccount from "../views/CreateAccount";
 import GameDetails from "../views/GameDetails";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function Router() {
+  const { user } = useAuthContext();
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -17,11 +24,11 @@ export default function Router() {
         },
         {
           path: "/login",
-          element: <LoginPage />,
+          element: !user ? <LoginPage /> : <Navigate to="/" />,
         },
         {
           path: "/create_account",
-          element: <CreateAccount />,
+          element: !user ? <CreateAccount /> : <Navigate to="/" />,
         },
         {
           path: "/user/:id",
