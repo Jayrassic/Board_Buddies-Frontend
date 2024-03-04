@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { parseBggXmlApi2SearchResponse } from "@code-bucket/board-game-geek";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function BGGSearch() {
   const [query, setQuery] = useState<string>("");
@@ -23,6 +23,8 @@ export default function BGGSearch() {
   //   searchThing(query);
   // }, [query]);
 
+  const navigate = useNavigate();
+
   return (
     <>
       <button
@@ -38,13 +40,13 @@ export default function BGGSearch() {
         className="modal fade"
         id="exampleModal"
         tabindex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="addGameModal"
         aria-hidden="true"
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
+              <h1 className="modal-title fs-5" id="addGameModal">
                 Search Game
               </h1>
               <button
@@ -69,11 +71,18 @@ export default function BGGSearch() {
               >
                 Search
               </button>
+              {searchData && searchData.length == 0 && (
+                <h2>No Results, Please try again</h2>
+              )}
               {searchData &&
                 searchData.map((game) => {
                   return (
-                    <Link to={`/game/${game.id}`}>
-                      <p>{game.name}</p>
+                    <Link
+                      to={`/game/${game.id}`}
+                      data-bs-dismiss="modal"
+                      onClick={() => navigate(`/game/${game.id}`)}
+                    >
+                      <p className="link-primary">{game.name}</p>
                     </Link>
                   );
                 })}
