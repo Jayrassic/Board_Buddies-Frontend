@@ -12,40 +12,42 @@ export default function LoginPage(): React.JSX.Element {
   }
 
   return (
-    <div className="position-absolute top-50 start-50 translate-middle col-3">
-      <form className="centered">
-        <h1 className="mb-3">Login</h1>
-        <div className="input-box mb-3">
-          <label className="form-label" htmlFor="email">
-            Email:{" "}
-          </label>
-          <input
-            className="form-control"
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-        </div>
-        <div className="input-box mb-3">
-          <label className="form-label" htmlFor="password">
-            Password:{" "}
-          </label>
-          <input
-            className="form-control"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          />
-        </div>
-        <button
-          className="btn btn-primary"
-          disabled={isLoading}
-          onClick={(e) => handleSubmit(e)}
-        >
-          Login
-        </button>
-        {error && <div className="error">{error}</div>}
-      </form>
+    <div className="bg-secondary-subtle d-flex justify-content-center align-items-center vh-100">
+      <div className=" col-4 bg-white p-4 rounded">
+        <form className="centered">
+          <h1 className="mb-3">Login</h1>
+          <div className="input-box mb-3">
+            <label className="form-label" htmlFor="email">
+              Email:{" "}
+            </label>
+            <input
+              className="form-control"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+          </div>
+          <div className="input-box mb-3">
+            <label className="form-label" htmlFor="password">
+              Password:{" "}
+            </label>
+            <input
+              className="form-control"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+          </div>
+          <button
+            className="btn btn-primary"
+            disabled={isLoading}
+            onClick={(e) => handleSubmit(e)}
+          >
+            Login
+          </button>
+          {error && <div className="fs-5 text text-danger mt-2">{error}</div>}
+        </form>
+      </div>
     </div>
   );
 }

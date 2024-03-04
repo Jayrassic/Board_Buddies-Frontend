@@ -13,53 +13,55 @@ export default function CreateAccount() {
   }
 
   return (
-    <div className="position-absolute top-50 start-50 translate-middle col-3">
-      <form className="centered" onSubmit={handleSubmit}>
-        <h1 className="mb-3">Create an account</h1>
-        <div className="login-form centered">
-          <div className="input-box mb-3">
-            <label className="form-label" htmlFor="userName">
-              UserName:{" "}
-            </label>
-            <input
-              className="form-control"
-              type="text"
-              name="userName"
-              id="userName"
-              placeholder="Name show to all users"
-              onChange={(e) => setUserName(e.target.value)}
-              value={userName}
-            />
+    <div className="bg-secondary-subtle d-flex justify-content-center align-items-center vh-100">
+      <div className=" col-4 bg-white p-4 rounded">
+        <form className="centered" onSubmit={handleSubmit}>
+          <h1 className="mb-3">Create an account</h1>
+          <div className="login-form centered">
+            <div className="input-box mb-3">
+              <label className="form-label" htmlFor="userName">
+                UserName:{" "}
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                name="userName"
+                id="userName"
+                placeholder="Name show to all users"
+                onChange={(e) => setUserName(e.target.value)}
+                value={userName}
+              />
+            </div>
+            <div className="input-box mb-3">
+              <label htmlFor="email">Email: </label>
+              <input
+                className="form-control"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="example@email.com"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />
+            </div>
+            <div className="input-box mb-3">
+              <label htmlFor="password">Password: </label>
+              <input
+                className="form-control"
+                type="password"
+                name="password"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+            </div>
           </div>
-          <div className="input-box mb-3">
-            <label htmlFor="email">Email: </label>
-            <input
-              className="form-control"
-              type="email"
-              name="email"
-              id="email"
-              placeholder="example@email.com"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-          </div>
-          <div className="input-box mb-3">
-            <label htmlFor="password">Password: </label>
-            <input
-              className="form-control"
-              type="password"
-              name="password"
-              id="password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-          </div>
-        </div>
-        <button className="btn btn-primary" disabled={isLoading}>
-          Create Account
-        </button>
-        {error && <div className="error">{error}</div>}
-      </form>
+          <button className="btn btn-primary" disabled={isLoading}>
+            Create Account
+          </button>
+          {error && <div className="fs-5 text text-danger mt-2">{error}</div>}
+        </form>
+      </div>
     </div>
   );
 }
