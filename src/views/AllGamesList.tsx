@@ -2,7 +2,7 @@ import { useEffect, useReducer, useState, useMemo, useCallback } from "react";
 import { useGamesContext } from "../hooks/useGamesContext";
 import GameTable from "../components/GameTable";
 import sortReducer from "../utils/sortReducer";
-import BGGSearch from "../components/BGG_SearchTest";
+import BGGSearch from "../components/BGG_SearchModal";
 import { GamesType } from "../models/global";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -188,106 +188,115 @@ export default function AllGamesList() {
   ]);
 
   return (
-    <div>
-      <h2>All Games</h2>
-      {isLoading && <h1>Loading</h1>}
-      {error && <h1>{error.message}</h1>}
-      {displayedGames && (
-        <div className="accordion">
-          <div className="accordion-item">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#filter"
-                aria-expanded="false"
-                aria-controls="filter"
-              >
-                Filters
-              </button>
-            </h2>
-            <div
-              id="filter"
-              className="accordion-collapse collapse collapse"
-              // data-bs-parent="#accordionExample"
-            >
-              <form className="accordion-body">
-                <label htmlFor="sort" className="form-label">
-                  Sort:{" "}
-                </label>
-                <select
-                  name="sort"
-                  id="sort"
-                  className="form-select"
-                  onChange={(e) => sortHandler(e)}
-                >
-                  <option value="">Please choose</option>
-                  <option value="Game Ascend">Game A-Z</option>
-                  <option value="Game Descend">Game Z-A</option>
-                  <option value="Owner Ascend">Owner A-Z</option>
-                  <option value="Owner Descend">Owner Z-A</option>
-                  <option value="Min Ascend">Min 1-9</option>
-                  <option value="Min Descend">Min 9-1</option>
-                  <option value="Max Ascend">Max 1-9</option>
-                  <option value="Max Descend">Max 9-1</option>
-                </select>
-                {games && !id && (
-                  <label className="form-label" htmlFor="checkbox">
-                    Sort by Owner:
-                  </label>
-                )}
-                <div className="form-check">
-                  {games &&
-                    !id &&
-                    allOwners().map((value) => {
-                      return (
-                        <div key={value}>
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            name={value}
-                            id={value}
-                            onClick={(e) => changeNames(e)}
-                          />
-                          <label className="form-check-label" htmlFor={value}>
-                            {value}
-                          </label>
-                        </div>
-                      );
-                    })}
-                </div>
-                <div>
-                  <label className="form-label" htmlFor="search">
-                    Search Game Names:{" "}
-                  </label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="search"
-                    id="search"
-                    onChange={(e) => setQuery(e.target.value)}
-                  />
-                  <label className="form-label" htmlFor="number">
-                    Number of Players:{" "}
-                  </label>
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="number"
-                    id="number"
-                    onChange={(e) => setPlayerNumber(+e.target.value)}
-                    min="1"
-                    max="20"
-                  />
-                </div>
-              </form>
+    <div className="bg-secondary-subtle vh-100">
+      <div className="container bg-white p-3 rounded vh-100">
+        {isLoading && (
+          <div className="position-absolute top-50 start-50 translate-middle">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
-          <GameTable data={displayedGames} />
-        </div>
-      )}
-      {id && <BGGSearch />}
+        )}
+        {error && <h1>{error.message}</h1>}
+        {displayedGames && (
+          <div className="accordion">
+            {!id ? <h2>All Games</h2> : <h2>Your Games</h2>}
+
+            <div className="accordion-item">
+              <h2 className="accordion-header">
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#filter"
+                  aria-expanded="false"
+                  aria-controls="filter"
+                >
+                  Filters
+                </button>
+              </h2>
+              <div
+                id="filter"
+                className="accordion-collapse collapse collapse"
+                // data-bs-parent="#accordionExample"
+              >
+                <form className="accordion-body">
+                  <label htmlFor="sort" className="form-label">
+                    Sort:{" "}
+                  </label>
+                  <select
+                    name="sort"
+                    id="sort"
+                    className="form-select"
+                    onChange={(e) => sortHandler(e)}
+                  >
+                    <option value="">Please choose</option>
+                    <option value="Game Ascend">Game A-Z</option>
+                    <option value="Game Descend">Game Z-A</option>
+                    <option value="Owner Ascend">Owner A-Z</option>
+                    <option value="Owner Descend">Owner Z-A</option>
+                    <option value="Min Ascend">Min 1-9</option>
+                    <option value="Min Descend">Min 9-1</option>
+                    <option value="Max Ascend">Max 1-9</option>
+                    <option value="Max Descend">Max 9-1</option>
+                  </select>
+                  {games && !id && (
+                    <label className="form-label" htmlFor="checkbox">
+                      Sort by Owner:
+                    </label>
+                  )}
+                  <div className="form-check">
+                    {games &&
+                      !id &&
+                      allOwners().map((value) => {
+                        return (
+                          <div key={value}>
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              name={value}
+                              id={value}
+                              onClick={(e) => changeNames(e)}
+                            />
+                            <label className="form-check-label" htmlFor={value}>
+                              {value}
+                            </label>
+                          </div>
+                        );
+                      })}
+                  </div>
+                  <div>
+                    <label className="form-label" htmlFor="search">
+                      Search Game Names:{" "}
+                    </label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="search"
+                      id="search"
+                      onChange={(e) => setQuery(e.target.value)}
+                    />
+                    <label className="form-label" htmlFor="number">
+                      Number of Players:{" "}
+                    </label>
+                    <input
+                      className="form-control"
+                      type="number"
+                      name="number"
+                      id="number"
+                      onChange={(e) => setPlayerNumber(+e.target.value)}
+                      min="1"
+                      max="20"
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
+            <GameTable data={displayedGames} />
+            {id && <BGGSearch />}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
