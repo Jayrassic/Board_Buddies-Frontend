@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { parseBggXmlApi2ThingResponse } from "@code-bucket/board-game-geek";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function GameDetails() {
@@ -11,6 +11,8 @@ export default function GameDetails() {
   const { user } = useAuthContext();
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function searchThing(id) {
@@ -65,17 +67,15 @@ export default function GameDetails() {
 
       if (response.ok) {
         setError(null);
-        console.log("Game Added to User");
+        navigate(`/user/${user.userName}`);
       }
     } catch (err) {
-      console.log(err);
       setError(err.message);
     }
   }
 
   return (
     <section>
-      {console.log(gameData)}
       {isLoading && <h1>Loading...</h1>}
       {gameData && (
         <div className="container">
