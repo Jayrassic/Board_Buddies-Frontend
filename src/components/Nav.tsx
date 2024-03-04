@@ -11,13 +11,15 @@ export default function Nav(): React.JSX.Element {
   }
 
   return (
-    <nav className="navbar">
-      <Link className="nav-link navbar-brand" to="/">
+    <nav className="navbar bg-primary text-light p-3">
+      <Link className="nav-link navbar-brand text-white" to="/">
         Board buddies
       </Link>
       {user && (
         <div className="d-flex align-items-center gap-4">
-          <span className="nav-item navbar-text">Welcome {user.email}</span>
+          <span className="nav-item navbar-text text-white">
+            Welcome {user.email}
+          </span>
 
           <Link className="nav-link" to="/" onClick={logoutHandler}>
             LogOut
