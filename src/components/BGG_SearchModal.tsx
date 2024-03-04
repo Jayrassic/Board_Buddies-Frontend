@@ -57,8 +57,11 @@ export default function BGGSearch() {
               ></button>
             </div>
             <div className="modal-body">
-              <label htmlFor="gameSearch">Search for a game:</label>
+              <label className="form-label" htmlFor="gameSearch">
+                Search for a game:
+              </label>
               <input
+                className="form-control"
                 type="text"
                 name="gameSearch"
                 id="gameSearch"
@@ -66,13 +69,13 @@ export default function BGGSearch() {
               />
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-primary mt-3 mb-2"
                 onClick={() => searchThing(query)}
               >
                 Search
               </button>
               {searchData && searchData.length == 0 && (
-                <h2>No Results, Please try again</h2>
+                <h2>No Results, please try again</h2>
               )}
               {searchData &&
                 searchData.map((game) => {
