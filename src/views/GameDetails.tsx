@@ -75,29 +75,34 @@ export default function GameDetails() {
   }
 
   return (
-    <section>
+    <section className="bg-secondary-subtle min-vh-100 ">
       {isLoading && <h1>Loading...</h1>}
       {gameData && (
-        <div className="container">
+        <div className="container bg-white p-3 rounded min-vh-100">
           <h1>{gameData.names[0].value}</h1>
-          <img
-            className="img-fluid rounded col-5"
-            src={gameData.image}
-            alt=""
-          />
+          <div className="row">
+            <img
+              className="img-fluid rounded col-5 row-5"
+              src={gameData.image}
+              alt=""
+            />
+            <div className="col d-flex flex-column justify-content-around">
+              <p>
+                <span className="fw-bold">Minimum Players: </span>
+                {gameData.minplayers}
+              </p>
+              <p>
+                <span className="fw-bold">Maximum Players: </span>
+                {gameData.maxplayers}
+              </p>
+              <p>
+                <span className="fw-bold">Playtime: </span>
+                {gameData.playingtime} mins
+              </p>
+            </div>
+          </div>
           <div className="pt-3 col-9">
-            <p>
-              <span className="fw-bold">Minimum Players: </span>
-              {gameData.minplayers}
-            </p>
-            <p>
-              <span className="fw-bold">Maximum Players: </span>
-              {gameData.maxplayers}
-            </p>
-            <p>
-              <span className="fw-bold">Playtime: </span>
-              {gameData.playingtime} mins
-            </p>
+            {" "}
             <p className="mb-0">
               <span className="fw-bold">Description: </span>
             </p>
@@ -105,23 +110,23 @@ export default function GameDetails() {
               {gameData.description
                 .replace(/&quot;/g, '"')
                 .replace(/&#10;/g, "\r\n")
-                .replace(/&rsquo;/g, "'")}
+                .replace(/&rsquo;/g, "'")
+                .replace(/&mdash;/g, "—")}
             </p>
           </div>
           {user && (
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-              // className="btn btn-primary btn-lg"
-              // type="button"
-              // onClick={(e) => handleAdd(e)}
-            >
-              Add Game to your list
-            </button>
+            <div className="text-center m-2">
+              {error && <h2 className="fs-5 text text-danger mt-2">{error}</h2>}
+              <button
+                type="button"
+                className="btn btn-primary "
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                Add Game to your list
+              </button>
+            </div>
           )}
-          {error && <h2>{error}</h2>}
         </div>
       )}
       {/* Modal */}
