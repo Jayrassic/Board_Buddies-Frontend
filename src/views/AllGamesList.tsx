@@ -188,8 +188,8 @@ export default function AllGamesList() {
   ]);
 
   return (
-    <div className="bg-secondary-subtle vh-100">
-      <div className="container bg-white p-3 rounded vh-100">
+    <div className="bg-secondary-subtle min-vh-100">
+      <div className="container bg-white p-3 rounded min-vh-100">
         {isLoading && (
           <div className="position-absolute top-50 start-50 translate-middle">
             <div className="spinner-border text-primary" role="status">
@@ -233,8 +233,8 @@ export default function AllGamesList() {
                     <option value="">Please choose</option>
                     <option value="Game Ascend">Game A-Z</option>
                     <option value="Game Descend">Game Z-A</option>
-                    <option value="Owner Ascend">Owner A-Z</option>
-                    <option value="Owner Descend">Owner Z-A</option>
+                    {!id && <option value="Owner Ascend">Owner A-Z</option>}
+                    {!id && <option value="Owner Descend">Owner Z-A</option>}
                     <option value="Min Ascend">Min 1-9</option>
                     <option value="Min Descend">Min 9-1</option>
                     <option value="Max Ascend">Max 1-9</option>

@@ -13,7 +13,7 @@ export default function CreateAccount() {
   }
 
   return (
-    <div className="bg-secondary-subtle d-flex justify-content-center align-items-center vh-100">
+    <div className="bg-secondary-subtle d-flex justify-content-center align-items-center min-vh-100">
       <div className=" col-4 bg-white p-4 rounded">
         <form className="centered" onSubmit={handleSubmit}>
           <h1 className="mb-3">Create an account</h1>
