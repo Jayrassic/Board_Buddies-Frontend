@@ -9,22 +9,15 @@ export default function BGGSearch() {
   const [query, setQuery] = useState<string>("");
   const [searchData, setSearchData] = useState<null | BggSearch[]>(null);
 
-  // useEffect(() => {
   async function searchThing(searchTerm: string) {
     const response = await fetch(
-      `https://api.geekdo.com/xmlapi2/search?query=${searchTerm}&type=boardgame`
+      `https://api.geekdo.com/xmlapi2/search?query=${searchTerm}&type=boardgame,boardgameexpansion`
     );
     const data = await response.text();
     const bggResponse = parseBggXmlApi2SearchResponse(data);
     const cutResponse = bggResponse.items.slice(0, 10);
-    //   await cutResponse.forEach(async (item) => {
-    //     const image = await getPic(item.id);
-    //     item.thumbnail = image;
-    //   });
     setSearchData(cutResponse);
   }
-  //   searchThing(query);
-  // }, [query]);
 
   const navigate = useNavigate();
 
