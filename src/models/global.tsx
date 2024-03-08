@@ -22,3 +22,7 @@ export type UserTokenType = {
   token: string;
   userName: string;
 };
+
+export type UserType = {
+  user: UserTokenType | null;
+};
