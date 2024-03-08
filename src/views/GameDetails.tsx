@@ -8,9 +8,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function GameDetails() {
-  const [gameData, setGameData] = useState<BggGame | BggExpansion | null>(null);
+  type DataType = BggGame | BggExpansion | null;
+  const [gameData, setGameData] = useState<DataType>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<boolean | Error>(false);
+  const [error, setError] = useState<boolean | string>(false);
 
   const { user } = useAuthContext();
 
@@ -23,23 +24,27 @@ export default function GameDetails() {
       return;
     }
     async function searchThing(id: string) {
-      const response = await fetch(
-        `https://api.geekdo.com/xmlapi2/thing?id=${id}&versions=1`
-      );
-      const data = await response.text();
-      const bggResponse = parseBggXmlApi2ThingResponse(data);
-
-      if (bggResponse && bggResponse.items[0].type !== "boardgameexpansion") {
-        setGameData(bggResponse.items[0]);
+      setError(false);
+      try {
+        const response = await fetch(
+          `https://api.geekdo.com/xmlapi2/thing?id=${id}&versions=1&type=boardgame,boardgameexpansion`
+        );
+        const data = await response.text();
+        const bggResponse = parseBggXmlApi2ThingResponse(data);
+        console.log(bggResponse);
+        if (bggResponse && bggResponse.items[0].type !== "boardgameaccessory") {
+          // Error is irrelevant as the search result does not return lint error/
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          setGameData(bggResponse.items[0]);
+          setIsLoading(false);
+        }
+      } catch (err) {
+        setIsLoading(false);
+        setError((err as Error).message);
       }
     }
-    try {
-      searchThing(id);
-      setIsLoading(false);
-    } catch (err) {
-      setIsLoading(false);
-      setError(err);
-    }
+    searchThing(id);
   }, [id]);
 
   async function handleAdd(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -84,12 +89,13 @@ export default function GameDetails() {
         navigate(`/user/${user.userName}`);
       }
     } catch (err) {
-      setError(err.message);
+      setError((err as Error).message);
     }
   }
 
   return (
     <section className="bg-secondary-subtle min-vh-100 ">
+      {error && <h1>{error}</h1>}
       {isLoading && <h1>Loading...</h1>}
       {gameData && (
         <div className="container bg-white p-3 rounded min-vh-100">
