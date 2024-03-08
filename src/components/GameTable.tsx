@@ -13,22 +13,26 @@ export default function GameTable({
   const { dispatch } = useGamesContext();
   const { id } = useParams();
 
-  const [deleteData, setDeleteData] = useState(null);
+  const [deleteData, setDeleteData] = useState<null | GamesType>(null);
 
-  const handleClick = async (data) => {
-    console.log(data);
-    const response = await fetch("http://localhost:3000/games", {
-      method: "DELETE",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    const json = await response.json();
+  const handleClick = async (data: GamesType | null) => {
+    if (data === null) {
+      return;
+    }
+    if (user) {
+      const response = await fetch("http://localhost:3000/games", {
+        method: "DELETE",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json: GamesType = await response.json();
 
-    if (response.ok) {
-      dispatch({ type: "DELETE_GAME", payload: json });
+      if (response.ok) {
+        dispatch({ type: "DELETE_GAME", payload: json });
+      }
     }
   };
 
@@ -88,7 +92,7 @@ export default function GameTable({
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >

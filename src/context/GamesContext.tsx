@@ -1,30 +1,25 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, Dispatch } from "react";
+import { GamesType } from "../models/global";
+import { gamesReducer } from "../utils/gamesReducer";
 
-export const gamesReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_GAMES":
-      return {
-        games: action.payload,
-      };
-    case "ADD_GAME":
-      return {
-        games: [action.payload, ...state.games],
-      };
-    case "DELETE_GAME":
-      return {
-        games: state.games.filter((game) => game._id !== action.payload._id),
-      };
-    default:
-      return state;
-  }
-};
+const initialState = { games: [], dispatch: () => {} };
 
 type ChildrenProps = { children: React.ReactNode };
 
-export const GamesContext = createContext();
+type DispatchType =
+  | { type: "SET_GAMES"; payload: GamesType[] }
+  | { type: "ADD_GAME"; payload: GamesType }
+  | { type: "DELETE_GAME"; payload: GamesType };
+
+export type StateType = {
+  games: GamesType[];
+  dispatch: Dispatch<DispatchType>;
+};
+
+export const GamesContext = createContext<StateType>(initialState);
 
 export const GameContextProvider = ({ children }: ChildrenProps) => {
-  const [state, dispatch] = useReducer(gamesReducer, { games: null });
+  const [state, dispatch] = useReducer(gamesReducer, initialState);
 
   return (
     <GamesContext.Provider value={{ ...state, dispatch }}>

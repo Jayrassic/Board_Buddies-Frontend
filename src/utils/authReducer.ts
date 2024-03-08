@@ -1,14 +1,10 @@
-interface UserInterface {
-  user: object | null;
-}
-type ACTIONTYPE =
-  | { type: "LOGIN"; payload: UserInterface }
-  | { type: "LOGOUT"; payload: UserInterface };
+import { UserTokenType, UserType } from "../models/global";
 
-export const authReducer = (
-  state: UserInterface,
-  action: ACTIONTYPE
-): UserInterface => {
+export type ActionType =
+  | { type: "LOGIN"; payload: UserTokenType }
+  | { type: "LOGOUT"; payload: UserTokenType };
+
+export const authReducer = (state: UserType, action: ActionType): UserType => {
   switch (action.type) {
     case "LOGIN":
       return { user: action.payload };

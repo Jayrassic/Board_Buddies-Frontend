@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { parseBggXmlApi2ThingResponse } from "@code-bucket/board-game-geek";
+import {
+  parseBggXmlApi2ThingResponse,
+  BggGame,
+  BggExpansion,
+} from "@code-bucket/board-game-geek";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function GameDetails() {
-  const [gameData, setGameData] = useState(null);
+  const [gameData, setGameData] = useState<BggGame | BggExpansion | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<boolean | Error>(false);
 
   const { user } = useAuthContext();
 
@@ -15,13 +19,19 @@ export default function GameDetails() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function searchThing(id) {
+    if (id === undefined) {
+      return;
+    }
+    async function searchThing(id: string) {
       const response = await fetch(
         `https://api.geekdo.com/xmlapi2/thing?id=${id}&versions=1`
       );
       const data = await response.text();
       const bggResponse = parseBggXmlApi2ThingResponse(data);
-      setGameData(bggResponse.items[0]);
+
+      if (bggResponse && bggResponse.items[0].type !== "boardgameexpansion") {
+        setGameData(bggResponse.items[0]);
+      }
     }
     try {
       searchThing(id);
@@ -32,7 +42,7 @@ export default function GameDetails() {
     }
   }, [id]);
 
-  async function handleAdd(e) {
+  async function handleAdd(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
 
     if (!user) {
@@ -40,14 +50,18 @@ export default function GameDetails() {
       return;
     }
 
-    const data = {
-      name: gameData.names[0].value,
-      description: gameData.description,
-      minPlayers: gameData.minplayers,
-      maxPlayers: gameData.maxplayers,
-      image: gameData.image,
-      thumbnail: gameData.thumbnail,
-    };
+    let data = null;
+
+    if (gameData) {
+      data = {
+        name: gameData.names[0].value,
+        description: gameData.description,
+        minPlayers: gameData.minplayers,
+        maxPlayers: gameData.maxplayers,
+        image: gameData.image,
+        thumbnail: gameData.thumbnail,
+      };
+    }
 
     try {
       const response = await fetch("http://localhost:3000/games", {
@@ -66,7 +80,7 @@ export default function GameDetails() {
       }
 
       if (response.ok) {
-        setError(null);
+        setError(false);
         navigate(`/user/${user.userName}`);
       }
     } catch (err) {
@@ -135,7 +149,7 @@ export default function GameDetails() {
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >

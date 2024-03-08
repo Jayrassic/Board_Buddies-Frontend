@@ -19,17 +19,18 @@ export default function AllGamesList() {
   const [query, setQuery] = useState<string>("");
 
   const [sortedGames, sortDispatch] = useReducer(sortReducer, games);
-  const [displayedGames, setDisplayedGames] = useState(games);
+  const [displayedGames, setDisplayedGames] = useState<GamesType[] | null>(
+    games
+  );
   const { user } = useAuthContext();
 
   const { id } = useParams();
   // Fetches games list from API
   useEffect(() => {
     async function fetchGames() {
-      setError(null);
       setIsLoading(true);
-      dispatch({ type: "SET_GAMES", payload: null });
-      if (id !== undefined) {
+      setError(null);
+      if (id !== undefined && user) {
         // try {
         const response = await fetch(`http://localhost:3000/games/${id}`, {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -87,16 +88,25 @@ export default function AllGamesList() {
     });
   }
 
+  type AllOwnerType = string[] | false;
+
+  const [allOwnersArray, setAllOwnersArray] = useState<AllOwnerType>(false);
+
   // Gathers names to display in filter list
-  function allOwners(): string[] | undefined {
-    if (games) {
-      const ownersArray: string[] = games.map(
-        (game: GamesType) => game.owner.userName
-      );
-      const ownersList = [...new Set(ownersArray)];
-      return ownersList;
+  useEffect(() => {
+    function allOwners(): void {
+      if (games) {
+        const ownersArray: string[] = games.map(
+          (game: GamesType) => game.owner.userName
+        );
+        const ownersList = [...new Set(ownersArray)];
+        setAllOwnersArray(ownersList);
+      } else {
+        setAllOwnersArray(false);
+      }
     }
-  }
+    allOwners();
+  }, [games]);
 
   // Event listener for adding and removing names to namesArray.
   const changeNames = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
@@ -157,7 +167,7 @@ export default function AllGamesList() {
 
   useEffect(() => {
     if (sortedGames) {
-      let modifiedData: GamesType[] = [...sortedGames];
+      let modifiedData: GamesType[] | undefined = [...sortedGames];
 
       if (sortedGames) {
         modifiedData = [...sortedGames];
@@ -167,15 +177,19 @@ export default function AllGamesList() {
         modifiedData = filterNames;
       }
 
-      if (query !== "") {
+      if (query !== "" && modifiedData) {
         modifiedData = searchData(modifiedData);
       }
 
-      if (playerNumber !== 0) {
+      if (playerNumber !== 0 && modifiedData) {
         modifiedData = numberOfPlayers(modifiedData, playerNumber);
       }
 
-      setDisplayedGames(modifiedData);
+      if (modifiedData === undefined) {
+        setDisplayedGames(null);
+      } else {
+        setDisplayedGames(modifiedData);
+      }
     }
   }, [
     filterNames,
@@ -197,8 +211,8 @@ export default function AllGamesList() {
             </div>
           </div>
         )}
-        {error && <h1>{error.message}</h1>}
-        {displayedGames && (
+        {error && <h1 className=" text mt-2'">{error.message}</h1>}
+        {displayedGames && !isLoading && (
           <div className="accordion">
             {!id ? <h2>All Games</h2> : <h2>Your Games</h2>}
 
@@ -248,7 +262,8 @@ export default function AllGamesList() {
                   <div className="form-check">
                     {games &&
                       !id &&
-                      allOwners().map((value) => {
+                      allOwnersArray &&
+                      allOwnersArray.map((value) => {
                         return (
                           <div key={value}>
                             <input

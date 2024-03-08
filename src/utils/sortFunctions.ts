@@ -1,4 +1,6 @@
-export function sortGameNameAscending(data) {
+import { GamesType } from "../models/global";
+
+export function sortGameNameAscending(data: GamesType[]) {
   const newData = [...data];
 
   newData.sort((a, b) => {
@@ -16,11 +18,11 @@ export function sortGameNameAscending(data) {
   return newData;
 }
 
-export function sortGameNameDescending(data) {
+export function sortGameNameDescending(data: GamesType[]) {
   return sortGameNameAscending(data).reverse();
 }
 
-export function sortGameOwnerAscending(data) {
+export function sortGameOwnerAscending(data: GamesType[]) {
   const newData = [...data];
 
   newData.sort((a, b) => {
@@ -38,12 +40,12 @@ export function sortGameOwnerAscending(data) {
   return newData;
 }
 
-export function sortGameOwnerDescending(data) {
+export function sortGameOwnerDescending(data: GamesType[]) {
   return sortGameNameAscending(data).reverse();
 }
 
 // Sorts the original array by minPlayers number of players in acceding order
-export function sortMinPlayersAscending(data) {
+export function sortMinPlayersAscending(data: GamesType[]) {
   const newData = [...data];
 
   newData.sort((a, b) => {
@@ -62,12 +64,12 @@ export function sortMinPlayersAscending(data) {
 }
 
 // Sorts the original array by minPlayers number of players in descending order
-export function sortMinPlayersDescending(data) {
+export function sortMinPlayersDescending(data: GamesType[]) {
   return sortMinPlayersAscending(data).reverse();
 }
 
 // Sorts the original array by minPlayers number of players in acceding order
-export function sortMaxPlayersAscending(data) {
+export function sortMaxPlayersAscending(data: GamesType[]) {
   const newData = [...data];
 
   newData.sort((a, b) => {
@@ -86,6 +88,6 @@ export function sortMaxPlayersAscending(data) {
 }
 
 // Sorts the original array by minPlayers number of players in descending order
-export function sortMaxPlayersDescending(data) {
+export function sortMaxPlayersDescending(data: GamesType[]) {
   return sortMaxPlayersAscending(data).reverse();
 }

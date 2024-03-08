@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
-import { parseBggXmlApi2SearchResponse } from "@code-bucket/board-game-geek";
+import { useState } from "react";
+import {
+  parseBggXmlApi2SearchResponse,
+  BggSearch,
+} from "@code-bucket/board-game-geek";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function BGGSearch() {
   const [query, setQuery] = useState<string>("");
-  const [searchData, setSearchData] = useState();
+  const [searchData, setSearchData] = useState<null | BggSearch[]>(null);
 
   // useEffect(() => {
   async function searchThing(searchTerm: string) {
@@ -39,7 +42,7 @@ export default function BGGSearch() {
       <div
         className="modal fade"
         id="exampleModal"
-        tabindex="-1"
+        tabIndex={-1}
         aria-labelledby="addGameModal"
         aria-hidden="true"
       >

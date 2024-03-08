@@ -1,14 +1,15 @@
-import { createContext, useEffect, useReducer } from "react";
-import { authReducer } from "../utils/authReducer";
+import { createContext, useEffect, useReducer, Dispatch } from "react";
+import { ActionType, authReducer } from "../utils/authReducer";
 import { UserTokenType } from "../models/global";
 
-interface UserInterface {
+type StateType = {
   user: UserTokenType | null;
-}
+  dispatch: Dispatch<ActionType>;
+};
 
-const initialState = { user: null };
+const initialState = { user: null, dispatch: () => {} };
 
-export const AuthContext = createContext<UserInterface>(initialState);
+export const AuthContext = createContext<StateType>(initialState);
 
 type ChildrenProps = { children: React.ReactNode };
 
@@ -16,7 +17,9 @@ export const AuthContextProvider = ({ children }: ChildrenProps) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user: UserTokenType = JSON.parse(
+      localStorage.getItem("user") || `""`
+    );
 
     if (user) {
       dispatch({ type: "LOGIN", payload: user });

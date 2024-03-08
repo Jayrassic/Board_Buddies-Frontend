@@ -7,7 +7,7 @@ export default function CreateAccount() {
   const [userName, setUserName] = useState<string>("");
   const { createAccount, isLoading, error } = useCreateAccount();
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     await createAccount(email, password, userName);
   }
