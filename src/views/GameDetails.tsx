@@ -96,7 +96,13 @@ export default function GameDetails() {
   return (
     <section className="bg-secondary-subtle min-vh-100 ">
       {error && <h1>{error}</h1>}
-      {isLoading && <h1>Loading...</h1>}
+      {isLoading && (
+        <div className="position-absolute top-50 start-50 translate-middle">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
       {gameData && (
         <div className="container bg-white p-3 rounded min-vh-100">
           <h1>{gameData.names[0].value}</h1>
