@@ -17,8 +17,8 @@ export default function Nav(): React.JSX.Element {
       </Link>
       {user && (
         <div className="d-flex align-items-center gap-4">
-          <span className="nav-item navbar-text text-white">
-            Welcome {user.email}
+          <span className="nav-item navbar-text text-white fs-3">
+            Welcome {user.userName}
           </span>
 
           <Link className="nav-link" to="/" onClick={logoutHandler}>
