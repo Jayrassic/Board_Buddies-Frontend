@@ -30,6 +30,7 @@ export default function CreateAccount() {
                 placeholder="Name show to all users"
                 onChange={(e) => setUserName(e.target.value)}
                 value={userName}
+                required
               />
             </div>
             <div className="input-box mb-3">
@@ -42,6 +43,7 @@ export default function CreateAccount() {
                 placeholder="example@email.com"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
+                required
               />
             </div>
             <div className="input-box mb-3">
@@ -53,13 +55,19 @@ export default function CreateAccount() {
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
+                required
               />
             </div>
           </div>
           <button className="btn btn-primary" disabled={isLoading}>
             Create Account
           </button>
-          {error && <div className="fs-5 text text-danger mt-2">{error}</div>}
+          {error &&
+            error.map((singleError) => {
+              return (
+                <div className="fs-5 text text-danger mt-2">{singleError}</div>
+              );
+            })}
         </form>
       </div>
     </div>

@@ -6,7 +6,7 @@ export default function LoginPage(): React.JSX.Element {
   const [password, setPassword] = useState<string>("");
   const { login, isLoading, error } = useLogin();
 
-  async function handleSubmit(e: React.MouseEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     await login(email, password);
   }
@@ -14,7 +14,7 @@ export default function LoginPage(): React.JSX.Element {
   return (
     <div className="bg-secondary-subtle d-flex justify-content-center align-items-center min-vh-100">
       <div className=" col-4 bg-white p-4 rounded">
-        <form className="centered">
+        <form className="centered" onSubmit={handleSubmit}>
           <h1 className="mb-3">Login</h1>
           <div className="input-box mb-3">
             <label className="form-label" htmlFor="email">
@@ -25,8 +25,10 @@ export default function LoginPage(): React.JSX.Element {
               type="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              required
             />
           </div>
+          <div className="invalid-feedback">Please input a valid email</div>
           <div className="input-box mb-3">
             <label className="form-label" htmlFor="password">
               Password:{" "}
@@ -36,16 +38,18 @@ export default function LoginPage(): React.JSX.Element {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              required
             />
           </div>
-          <button
-            className="btn btn-primary"
-            disabled={isLoading}
-            onClick={(e) => handleSubmit(e)}
-          >
+          <button className="btn btn-primary" disabled={isLoading}>
             Login
           </button>
-          {error && <div className="fs-5 text text-danger mt-2">{error}</div>}
+          {error &&
+            error.map((singleError) => {
+              return (
+                <div className="fs-5 text text-danger mt-2">{singleError}</div>
+              );
+            })}
         </form>
       </div>
     </div>
