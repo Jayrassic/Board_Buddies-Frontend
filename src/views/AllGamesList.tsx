@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 export default function AllGamesList() {
   const { games, dispatch } = useGamesContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<null | Error>(null);
+  const [error, setError] = useState<null | string>(null);
 
   // Stores usernames that will be used to filter
   const [namesArray, setNamesArray] = useState<string[]>([]);
@@ -30,23 +30,27 @@ export default function AllGamesList() {
     async function fetchGames() {
       setIsLoading(true);
       setError(null);
-      if (id !== undefined && user) {
-        // try {
-        const response = await fetch(`http://localhost:3000/games/${id}`, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        });
-        const json = await response.json();
+      if (id !== undefined) {
+        if (user) {
+          // try {
+          const response = await fetch(`http://localhost:3000/games/${id}`, {
+            headers: { Authorization: `Bearer ${user.token}` },
+          });
+          const json = await response.json();
 
-        if (response.status === 401 || response.status === 404) {
-          console.log(json);
-          setError(json);
-          setIsLoading(false);
-        }
+          if (response.status === 401 || response.status === 404) {
+            setError(json.error);
+            setIsLoading(false);
+          }
 
-        if (response.ok) {
-          setError(null);
-          dispatch({ type: "SET_GAMES", payload: json });
+          if (response.ok) {
+            setError(null);
+            dispatch({ type: "SET_GAMES", payload: json });
+            setIsLoading(false);
+          }
+        } else {
           setIsLoading(false);
+          setError("Please login to view page");
         }
       } else {
         try {
@@ -65,7 +69,7 @@ export default function AllGamesList() {
           }
         } catch (err) {
           setIsLoading(false);
-          setError(err as Error);
+          setError((err as Error).message);
         }
       }
     }
@@ -211,8 +215,8 @@ export default function AllGamesList() {
             </div>
           </div>
         )}
-        {error && <h1 className=" text mt-2'">{error.message}</h1>}
-        {displayedGames && !isLoading && (
+        {error && <h1 className=" text-center mt-5">{error}</h1>}
+        {displayedGames && displayedGames.length > 0 && !isLoading && (
           <div className="accordion">
             {!id ? <h2>All Games</h2> : <h2>Your Games</h2>}
 
