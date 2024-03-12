@@ -11,7 +11,7 @@ export default function GameDetails() {
   type DataType = BggGame | BggExpansion | null;
   const [gameData, setGameData] = useState<DataType>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<boolean | string>(false);
+  const [error, setError] = useState<boolean | string[]>(false);
 
   const { user } = useAuthContext();
 
@@ -41,7 +41,7 @@ export default function GameDetails() {
         }
       } catch (err) {
         setIsLoading(false);
-        setError((err as Error).message);
+        setError([(err as Error).message]);
       }
     }
     searchThing(id);
@@ -51,7 +51,7 @@ export default function GameDetails() {
     e.preventDefault();
 
     if (!user) {
-      setError("Please log into account");
+      setError(["Please log into account"]);
       return;
     }
 
@@ -81,7 +81,7 @@ export default function GameDetails() {
       const json = await response.json();
 
       if (!response.ok) {
-        setError(json.error);
+        setError([json.error]);
       }
 
       if (response.ok) {
@@ -89,13 +89,12 @@ export default function GameDetails() {
         navigate(`/user/${user.userName}`);
       }
     } catch (err) {
-      setError((err as Error).message);
+      setError([(err as Error).message]);
     }
   }
 
   return (
     <section className="bg-secondary-subtle min-vh-100 ">
-      {error && <h1>{error}</h1>}
       {isLoading && (
         <div className="position-absolute top-50 start-50 translate-middle">
           <div className="spinner-border text-primary" role="status">
@@ -142,7 +141,15 @@ export default function GameDetails() {
           </div>
           {user && (
             <div className="text-center m-2">
-              {error && <h2 className="fs-5 text text-danger mt-2">{error}</h2>}
+              {error &&
+                typeof error === "object" &&
+                error.map((singleError: string) => {
+                  return (
+                    <div className="fs-5 text text-danger mt-2">
+                      {singleError}
+                    </div>
+                  );
+                })}{" "}
               <button
                 type="button"
                 className="btn btn-primary "
