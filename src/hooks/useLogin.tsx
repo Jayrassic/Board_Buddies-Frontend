@@ -20,7 +20,6 @@ export function useLogin() {
 
       if (!response.ok) {
         setIsLoading(false);
-        console.log("json");
         setError(json.error);
       }
 
