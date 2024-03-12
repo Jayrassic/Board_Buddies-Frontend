@@ -45,6 +45,7 @@ export default function GameTable({
             {!id && <th className="col-2">Owner</th>}
             <th className="col-2">Min Players</th>
             <th className="col-2">Max Players</th>
+            <th>Playing Time</th>
             {id && <th className="col-1">Delete</th>}
           </tr>
         </thead>
@@ -57,6 +58,7 @@ export default function GameTable({
                   {!id && <td>{game.owner.userName}</td>}
                   <td>{game.minPlayers}</td>
                   <td>{game.maxPlayers}</td>
+                  <td>{game.playingTime}</td>
                   {user && id && (
                     <td>
                       <button

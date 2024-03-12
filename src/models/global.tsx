@@ -13,8 +13,10 @@ export type GamesType = {
   description: string;
   minPlayers: number;
   maxPlayers: number;
+  playingTime: number;
   image: string;
   thumbnail: string;
+  dateAdded: Date;
 };
 
 export type UserTokenType = {

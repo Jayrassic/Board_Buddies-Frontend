@@ -62,8 +62,10 @@ export default function GameDetails() {
         description: gameData.description,
         minPlayers: gameData.minplayers,
         maxPlayers: gameData.maxplayers,
+        playingTime: gameData.playingtime,
         image: gameData.image,
         thumbnail: gameData.thumbnail,
+        dateAdded: new Date(),
       };
     }
 
