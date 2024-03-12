@@ -31,7 +31,6 @@ export default function GameDetails() {
         );
         const data = await response.text();
         const bggResponse = parseBggXmlApi2ThingResponse(data);
-        console.log(bggResponse);
         if (bggResponse && bggResponse.items[0].type !== "boardgameaccessory") {
           // Error is irrelevant as the search result does not return lint error/
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
