@@ -15,7 +15,6 @@ export function sortGameNameAscending(data: GamesType[]) {
     return 0;
   });
 
-  console.log(newData);
   return newData;
 }
 
