@@ -9,12 +9,13 @@ export function sortGameNameAscending(data: GamesType[]) {
     }
 
     if (a.name.toLowerCase() > b.name.toLowerCase()) {
-      return -1;
+      return 1;
     }
 
     return 0;
   });
 
+  console.log(newData);
   return newData;
 }
 
@@ -31,7 +32,7 @@ export function sortGameOwnerAscending(data: GamesType[]) {
     }
 
     if (a.owner.userName.toLowerCase() > b.owner.userName.toLowerCase()) {
-      return -1;
+      return 1;
     }
 
     return 0;
@@ -41,7 +42,21 @@ export function sortGameOwnerAscending(data: GamesType[]) {
 }
 
 export function sortGameOwnerDescending(data: GamesType[]) {
-  return sortGameNameAscending(data).reverse();
+  const newData = [...data];
+
+  newData.sort((a, b) => {
+    if (a.owner.userName.toLowerCase() < b.owner.userName.toLowerCase()) {
+      return 1;
+    }
+
+    if (a.owner.userName.toLowerCase() > b.owner.userName.toLowerCase()) {
+      return -1;
+    }
+
+    return 0;
+  });
+
+  return newData;
 }
 
 // Sorts the original array by minPlayers number of players in acceding order
