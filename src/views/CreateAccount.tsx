@@ -63,9 +63,11 @@ export default function CreateAccount() {
             Create Account
           </button>
           {error &&
-            error.map((singleError) => {
+            error.map((singleError, index) => {
               return (
-                <div className="fs-5 text text-danger mt-2">{singleError}</div>
+                <div key={index} className="fs-5 text text-danger mt-2">
+                  {singleError}
+                </div>
               );
             })}
         </form>

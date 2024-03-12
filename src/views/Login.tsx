@@ -45,9 +45,11 @@ export default function LoginPage(): React.JSX.Element {
             Login
           </button>
           {error &&
-            error.map((singleError) => {
+            error.map((singleError, index) => {
               return (
-                <div className="fs-5 text text-danger mt-2">{singleError}</div>
+                <div key={index} className="fs-5 text text-danger mt-2">
+                  {singleError}
+                </div>
               );
             })}
         </form>

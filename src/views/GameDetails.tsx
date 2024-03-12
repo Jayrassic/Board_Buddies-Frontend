@@ -142,9 +142,9 @@ export default function GameDetails() {
             <div className="text-center m-2">
               {error &&
                 typeof error === "object" &&
-                error.map((singleError: string) => {
+                error.map((singleError: string, index) => {
                   return (
-                    <div className="fs-5 text text-danger mt-2">
+                    <div key={index} className="fs-5 text text-danger mt-2">
                       {singleError}
                     </div>
                   );

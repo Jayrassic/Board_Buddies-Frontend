@@ -77,6 +77,7 @@ export default function BGGSearch() {
                 searchData.map((game) => {
                   return (
                     <Link
+                      key={game.id}
                       to={`/game/${game.id}`}
                       data-bs-dismiss="modal"
                       onClick={() => navigate(`/game/${game.id}`)}
