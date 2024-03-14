@@ -17,6 +17,7 @@ export default function AllGamesList() {
   const [namesArray, setNamesArray] = useState<string[]>([]);
   // Stores string that will be used to filter games names.
   const [query, setQuery] = useState<string>("");
+  const [timeLimit, setTimeLimit] = useState<number | null>(null);
 
   const [sortedGames, sortDispatch] = useReducer(sortReducer, games);
   const [displayedGames, setDisplayedGames] = useState<GamesType[] | null>(
@@ -25,6 +26,7 @@ export default function AllGamesList() {
   const { user } = useAuthContext();
 
   const { id } = useParams();
+
   // Fetches games list from API
   useEffect(() => {
     async function fetchGames() {
@@ -96,7 +98,7 @@ export default function AllGamesList() {
 
   const [allOwnersArray, setAllOwnersArray] = useState<AllOwnerType>(false);
 
-  // Gathers names to display in filter list
+  // Gathers user names to display in filter list
   useEffect(() => {
     function allOwners(): void {
       if (games) {
@@ -159,14 +161,40 @@ export default function AllGamesList() {
 
   const numberOfPlayers = useCallback(
     (originalArray: GamesType[], num: number) => {
-      if (playerNumber === 0) {
-        return originalArray;
+      if (playerNumber !== 0) {
+        return originalArray.filter((el) => {
+          return num >= el.minPlayers && num <= el.maxPlayers;
+        });
       }
-      return originalArray.filter((el) => {
-        return num >= el.minPlayers && num <= el.maxPlayers;
-      });
     },
     [playerNumber]
+  );
+
+  function max(data: GamesType[]): string {
+    if (!data) {
+      return "300";
+    }
+
+    const answer: string = data
+      .reduce((prev: GamesType, current: GamesType): number => {
+        return prev && prev.playingTime > current.playingTime
+          ? prev.playingTime
+          : current.playingTime;
+      })
+      .toString();
+
+    return answer;
+  }
+
+  const filterTime = useCallback(
+    (array: GamesType[]) => {
+      if (timeLimit !== 0 && timeLimit !== null) {
+        return array.filter((item) => {
+          return item.playingTime <= timeLimit;
+        });
+      }
+    },
+    [timeLimit]
   );
 
   useEffect(() => {
@@ -185,6 +213,11 @@ export default function AllGamesList() {
         modifiedData = searchData(modifiedData);
       }
 
+      if (timeLimit !== null && modifiedData) {
+        if (timeLimit > 30) {
+          modifiedData = filterTime(modifiedData);
+        }
+      }
       if (playerNumber !== 0 && modifiedData) {
         modifiedData = numberOfPlayers(modifiedData, playerNumber);
       }
@@ -203,6 +236,8 @@ export default function AllGamesList() {
     sortedGames,
     playerNumber,
     numberOfPlayers,
+    timeLimit,
+    filterTime,
   ]);
 
   return (
@@ -233,11 +268,7 @@ export default function AllGamesList() {
                   Filters
                 </button>
               </h2>
-              <div
-                id="filter"
-                className="accordion-collapse collapse collapse"
-                // data-bs-parent="#accordionExample"
-              >
+              <div id="filter" className="accordion-collapse collapse collapse">
                 <form className="accordion-body">
                   <label htmlFor="sort" className="form-label">
                     Sort:{" "}
@@ -267,9 +298,9 @@ export default function AllGamesList() {
                     {games &&
                       !id &&
                       allOwnersArray &&
-                      allOwnersArray.map((value) => {
+                      allOwnersArray.map((value, index) => {
                         return (
-                          <div key={value}>
+                          <div key={index}>
                             <input
                               className="form-check-input"
                               type="checkbox"
@@ -306,6 +337,26 @@ export default function AllGamesList() {
                       onChange={(e) => setPlayerNumber(+e.target.value)}
                       min="1"
                       max="20"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="timeRange" className="form-label">
+                      Max Time (minutes) :{" "}
+                    </label>
+                    <p className="mb-0 fw-bold">
+                      {timeLimit === null || timeLimit <= 30
+                        ? "None"
+                        : timeLimit}
+                    </p>
+                    <input
+                      type="range"
+                      className="form-range"
+                      defaultValue="1"
+                      min="30"
+                      max={games && max(games)}
+                      step="10"
+                      id="timeRange"
+                      onChange={(e) => setTimeLimit(+e.target.value)}
                     />
                   </div>
                 </form>
