@@ -34,7 +34,6 @@ export default function AllGamesList() {
       setError(null);
       if (id !== undefined) {
         if (user) {
-          // try {
           const response = await fetch(`http://localhost:3000/games/${id}`, {
             headers: { Authorization: `Bearer ${user.token}` },
           });
@@ -174,7 +173,9 @@ export default function AllGamesList() {
     if (!data) {
       return "300";
     }
-
+    if (data.length === 1) {
+      return data[0].playingTime.toString();
+    }
     const answer: string = data
       .reduce((prev: GamesType, current: GamesType): number => {
         return prev && prev.playingTime > current.playingTime
@@ -224,6 +225,7 @@ export default function AllGamesList() {
 
       if (modifiedData === undefined) {
         setDisplayedGames(null);
+        setError("No games matching");
       } else {
         setDisplayedGames(modifiedData);
       }
@@ -251,7 +253,7 @@ export default function AllGamesList() {
           </div>
         )}
         {error && <h1 className=" text-center mt-5">{error}</h1>}
-        {displayedGames && displayedGames.length > 0 && !isLoading && (
+        {!isLoading && (
           <div className="accordion">
             {!id ? <h2>All Games</h2> : <h2>Your Games</h2>}
 
@@ -362,10 +364,13 @@ export default function AllGamesList() {
                 </form>
               </div>
             </div>
-            <GameTable data={displayedGames} />
-            {id && <BGGSearch />}
+            {displayedGames && <GameTable data={displayedGames} />}
+            {(displayedGames === null || displayedGames.length === 0) && (
+              <h1>No Matching Games</h1>
+            )}
           </div>
         )}
+        {id && <BGGSearch />}
       </div>
     </div>
   );
