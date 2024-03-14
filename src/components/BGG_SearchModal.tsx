@@ -7,16 +7,22 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function BGGSearch() {
   const [query, setQuery] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchData, setSearchData] = useState<null | BggSearch[]>(null);
 
-  async function searchThing(searchTerm: string) {
+  async function searchThing(
+    e: React.FormEvent<HTMLFormElement>,
+    searchTerm: string
+  ) {
+    e.preventDefault();
+    setIsLoading(true);
     const response = await fetch(
       `https://api.geekdo.com/xmlapi2/search?query=${searchTerm}&type=boardgame,boardgameexpansion`
     );
     const data = await response.text();
     const bggResponse = parseBggXmlApi2SearchResponse(data);
-    const cutResponse = bggResponse.items.slice(0, 10);
-    setSearchData(cutResponse);
+    setSearchData(bggResponse.items);
+    setIsLoading(false);
   }
 
   const navigate = useNavigate();
@@ -39,7 +45,7 @@ export default function BGGSearch() {
         aria-labelledby="addGameModal"
         aria-hidden="true"
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="addGameModal">
@@ -53,31 +59,48 @@ export default function BGGSearch() {
               ></button>
             </div>
             <div className="modal-body">
-              <label className="form-label" htmlFor="gameSearch">
-                Search for a game:
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                name="gameSearch"
-                id="gameSearch"
-                onChange={(e) => setQuery(e.target.value)}
-              />
-              <button
-                type="button"
-                className="btn btn-primary mt-3 mb-2"
-                onClick={() => searchThing(query)}
+              <form
+                className="centered"
+                onSubmit={(e) => searchThing(e, query)}
               >
-                Search
-              </button>
+                <label className="form-label" htmlFor="gameSearch">
+                  Search for a game:
+                </label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="gameSearch"
+                  id="gameSearch"
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+                <button
+                  disabled={isLoading}
+                  type="submit"
+                  className="btn btn-primary mt-3 mb-2"
+                >
+                  Search
+                </button>
+              </form>
               {searchData && searchData.length == 0 && (
                 <h2>No Results, please try again</h2>
               )}
+
+              {/* Loading Spinner */}
+              {isLoading && (
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Search Results */}
               {searchData &&
-                searchData.map((game) => {
+                !isLoading &&
+                searchData.map((game, index) => {
                   return (
                     <Link
-                      key={game.id}
+                      key={index}
                       to={`/game/${game.id}`}
                       data-bs-dismiss="modal"
                       onClick={() => navigate(`/game/${game.id}`)}
