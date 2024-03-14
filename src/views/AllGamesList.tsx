@@ -81,7 +81,7 @@ export default function AllGamesList() {
   // Sets dispatch once games has loaded
   useEffect(() => {
     if (games) {
-      sortDispatch({ type: "Game Ascend", payload: games });
+      sortDispatch({ type: "Newest Additions", payload: games });
     }
     setDisplayedGames(games);
   }, [games]);
@@ -171,6 +171,7 @@ export default function AllGamesList() {
   );
 
   function max(data: GamesType[]): string {
+    console.log(data);
     if (!data) {
       return "300";
     }
@@ -178,11 +179,9 @@ export default function AllGamesList() {
       return data[0].playingTime.toString();
     }
     const answer: string = data
-      .reduce((prev: GamesType, current: GamesType): number => {
-        return prev && prev.playingTime > current.playingTime
-          ? prev.playingTime
-          : current.playingTime;
-      })
+      .reduce((acc, value) => {
+        return (acc = acc > value.playingTime ? acc : value.playingTime);
+      }, 0)
       .toString();
 
     return answer;
@@ -216,7 +215,7 @@ export default function AllGamesList() {
       }
 
       if (timeLimit !== null && modifiedData) {
-        if (timeLimit > 30) {
+        if (timeLimit >= 5) {
           modifiedData = filterTime(modifiedData);
         }
       }
@@ -283,6 +282,7 @@ export default function AllGamesList() {
                     onChange={(e) => sortHandler(e)}
                   >
                     <option value="">Please choose</option>
+                    <option value="Newest Additions">Newest Additions</option>
                     <option value="Game Ascend">Game A-Z</option>
                     <option value="Game Descend">Game Z-A</option>
                     {!id && <option value="Owner Ascend">Owner A-Z</option>}
@@ -347,17 +347,15 @@ export default function AllGamesList() {
                       Max Time (minutes) :{" "}
                     </label>
                     <p className="mb-0 fw-bold">
-                      {timeLimit === null || timeLimit <= 30
-                        ? "None"
-                        : timeLimit}
+                      {timeLimit === null || timeLimit < 5 ? "None" : timeLimit}
                     </p>
                     <input
                       type="range"
                       className="form-range"
-                      defaultValue="1"
-                      min="30"
+                      defaultValue="0"
+                      min="0"
                       max={games && max(games)}
-                      step="10"
+                      step="5"
                       id="timeRange"
                       onChange={(e) => setTimeLimit(+e.target.value)}
                     />
