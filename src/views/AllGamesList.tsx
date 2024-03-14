@@ -30,6 +30,7 @@ export default function AllGamesList() {
   // Fetches games list from API
   useEffect(() => {
     async function fetchGames() {
+      setDisplayedGames(null);
       setIsLoading(true);
       setError(null);
       if (id !== undefined) {
@@ -253,7 +254,7 @@ export default function AllGamesList() {
           </div>
         )}
         {error && <h1 className=" text-center mt-5">{error}</h1>}
-        {!isLoading && (
+        {!isLoading && !error && (
           <div className="accordion">
             {!id ? <h2>All Games</h2> : <h2>Your Games</h2>}
 
@@ -370,7 +371,7 @@ export default function AllGamesList() {
             )}
           </div>
         )}
-        {id && <BGGSearch />}
+        {id && !isLoading && <BGGSearch />}
       </div>
     </div>
   );
