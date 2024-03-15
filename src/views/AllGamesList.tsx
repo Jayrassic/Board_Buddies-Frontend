@@ -8,6 +8,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 import { useParams } from "react-router-dom";
 
+type AllOwnerType = string[] | false;
+
 export default function AllGamesList() {
   const { games, dispatch } = useGamesContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -17,12 +19,19 @@ export default function AllGamesList() {
   const [namesArray, setNamesArray] = useState<string[]>([]);
   // Stores string that will be used to filter games names.
   const [query, setQuery] = useState<string>("");
+  // Stores user selected time limit
   const [timeLimit, setTimeLimit] = useState<number | null>(null);
-
+  // Stores the number input into the number of players filter
+  const [playerNumber, setPlayerNumber] = useState<number>(0);
+  // Stores the sorted original array to be fed to display games
   const [sortedGames, sortDispatch] = useReducer(sortReducer, games);
+  // All filters applied for games to show
   const [displayedGames, setDisplayedGames] = useState<GamesType[] | null>(
     games
   );
+  // Stores a list of owners to be used in owner filter
+  const [allOwnersArray, setAllOwnersArray] = useState<AllOwnerType>(false);
+
   const { user } = useAuthContext();
 
   const { id } = useParams();
@@ -94,10 +103,6 @@ export default function AllGamesList() {
     });
   }
 
-  type AllOwnerType = string[] | false;
-
-  const [allOwnersArray, setAllOwnersArray] = useState<AllOwnerType>(false);
-
   // Gathers user names to display in filter list
   useEffect(() => {
     function allOwners(): void {
@@ -157,8 +162,6 @@ export default function AllGamesList() {
     [query]
   );
 
-  const [playerNumber, setPlayerNumber] = useState<number>(0);
-
   const numberOfPlayers = useCallback(
     (originalArray: GamesType[], num: number) => {
       if (playerNumber !== 0) {
@@ -171,7 +174,6 @@ export default function AllGamesList() {
   );
 
   function max(data: GamesType[]): string {
-    console.log(data);
     if (!data) {
       return "300";
     }
@@ -201,10 +203,6 @@ export default function AllGamesList() {
   useEffect(() => {
     if (sortedGames) {
       let modifiedData: GamesType[] | undefined = [...sortedGames];
-
-      if (sortedGames) {
-        modifiedData = [...sortedGames];
-      }
 
       if (namesArray) {
         modifiedData = filterNames;
@@ -292,11 +290,7 @@ export default function AllGamesList() {
                     <option value="Max Ascend">Max 1-9</option>
                     <option value="Max Descend">Max 9-1</option>
                   </select>
-                  {games && !id && (
-                    <label className="form-label" htmlFor="checkbox">
-                      Sort by Owner:
-                    </label>
-                  )}
+                  {games && !id && <p className=" mb-2">Sort by Owner:</p>}
                   <div className="form-check">
                     {games &&
                       !id &&
