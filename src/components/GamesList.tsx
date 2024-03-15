@@ -1,8 +1,8 @@
 import { useEffect, useReducer, useState, useMemo, useCallback } from "react";
 import { useGamesContext } from "../hooks/useGamesContext";
-import GameTable from "../components/GameTable";
+import GameTable from "./GameTable";
 import sortReducer from "../utils/sortReducer";
-import BGGSearch from "../components/BGG_SearchModal";
+import BGGSearch from "./BGG_SearchModal";
 import { GamesType } from "../models/global";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 
 type AllOwnerType = string[] | false;
 
-export default function AllGamesList() {
+export default function GamesList() {
   const { games, dispatch } = useGamesContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);

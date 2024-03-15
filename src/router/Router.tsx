@@ -4,12 +4,13 @@ import {
   Navigate,
 } from "react-router-dom";
 import MainView from "../views/Main";
-import AllGamesList from "../views/AllGamesList";
 import LoginPage from "../views/Login";
 import CreateAccount from "../views/CreateAccount";
 import GameDetails from "../views/GameDetails";
 import Error404 from "../views/404";
 import { useAuthContext } from "../hooks/useAuthContext";
+import AllGames from "../views/AllGames";
+import UsersList from "../views/UsersGamesList";
 
 export default function Router() {
   const { user } = useAuthContext();
@@ -23,23 +24,23 @@ export default function Router() {
         {
           children: [
             {
-              path: "/",
-              element: <AllGamesList />,
+              path: "",
+              element: <AllGames />,
             },
             {
-              path: "/login",
+              path: "login",
               element: !user ? <LoginPage /> : <Navigate to="/" />,
             },
             {
-              path: "/create_account",
+              path: "create_account",
               element: !user ? <CreateAccount /> : <Navigate to="/" />,
             },
             {
-              path: "/user/:id",
-              element: <AllGamesList />,
+              path: "user/:id",
+              element: <UsersList />,
             },
             {
-              path: "/game/:id",
+              path: "game/:id",
               element: <GameDetails />,
             },
           ],
