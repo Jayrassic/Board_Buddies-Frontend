@@ -27,6 +27,8 @@ export default function CreateAccount() {
                 type="text"
                 name="userName"
                 id="userName"
+                minLength={2}
+                maxLength={15}
                 placeholder="Name show to all users"
                 onChange={(e) => setUserName(e.target.value)}
                 value={userName}
