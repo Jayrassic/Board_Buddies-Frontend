@@ -37,7 +37,7 @@ export default function GameTable({
   };
 
   return (
-    <>
+    <div className="table-responsive">
       <table className=" table table-striped table-bordered align-middle">
         <thead className="table-dark">
           <tr>
@@ -132,6 +132,6 @@ export default function GameTable({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

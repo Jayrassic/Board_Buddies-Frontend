@@ -13,7 +13,7 @@ export default function LoginPage(): React.JSX.Element {
 
   return (
     <div className="bg-secondary-subtle d-flex justify-content-center align-items-center min-vh-100">
-      <div className=" col-4 bg-white p-4 rounded">
+      <div className=" col-10 col-lg-4 bg-white p-4 rounded">
         <form className="centered" onSubmit={handleSubmit}>
           <h1 className="mb-3">Login</h1>
           <div className="input-box mb-3">
