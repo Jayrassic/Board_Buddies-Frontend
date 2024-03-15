@@ -287,6 +287,8 @@ export default function GamesList() {
                     <option value="Min Descend">Min 9-1</option>
                     <option value="Max Ascend">Max 1-9</option>
                     <option value="Max Descend">Max 9-1</option>
+                    <option value="Longest Playtime">Longest Playtime</option>
+                    <option value="Shortest Playtime">Shortest Playtime</option>
                   </select>
                   {games && !id && <p className=" mb-2">Sort by Owner:</p>}
                   <div className="form-check">

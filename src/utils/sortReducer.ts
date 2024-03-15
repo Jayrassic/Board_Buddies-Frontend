@@ -28,6 +28,10 @@ export default function sortReducer(
       return sortFunctions.sortMaxPlayersDescending(action.payload);
     case "Newest Additions":
       return sortFunctions.sortDateAddedAscending(action.payload);
+    case "Longest Playtime":
+      return sortFunctions.sortLongestPlaytime(action.payload);
+    case "Shortest Playtime":
+      return sortFunctions.sortShortestPlaytime(action.payload);
 
     default:
       return state;

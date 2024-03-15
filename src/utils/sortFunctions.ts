@@ -124,3 +124,40 @@ export function sortDateAddedAscending(data: GamesType[]) {
 
   return newData;
 }
+
+export function sortLongestPlaytime(data: GamesType[]) {
+  const newData = [...data];
+
+  newData.sort((a, b) => {
+    if (a.playingTime < b.playingTime) {
+      return 1;
+    }
+
+    if (a.playingTime > b.playingTime) {
+      return -1;
+    }
+
+    return 0;
+  });
+
+  return newData;
+}
+
+// Sorts the original array by minPlayers number of players in descending order
+export function sortShortestPlaytime(data: GamesType[]) {
+  const newData = [...data];
+
+  newData.sort((a, b) => {
+    if (a.playingTime < b.playingTime) {
+      return -1;
+    }
+
+    if (a.playingTime > b.playingTime) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  return newData;
+}
