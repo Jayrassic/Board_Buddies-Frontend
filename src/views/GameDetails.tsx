@@ -96,73 +96,76 @@ export default function GameDetails() {
 
   return (
     <section className="bg-secondary-subtle min-vh-100 ">
-      {isLoading && (
-        <div className="position-absolute top-50 start-50 translate-middle">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      )}
-      {gameData && (
-        <div className="container bg-white p-3 rounded min-vh-100">
-          <h1>{gameData.names[0].value}</h1>
-          <div className="row">
-            <img
-              className="img-fluid rounded col-5 row-5"
-              src={gameData.image}
-              alt=""
-            />
-            <div className="col d-flex flex-column justify-content-around">
-              <p>
-                <span className="fw-bold">Minimum Players: </span>
-                {gameData.minplayers}
-              </p>
-              <p>
-                <span className="fw-bold">Maximum Players: </span>
-                {gameData.maxplayers}
-              </p>
-              <p>
-                <span className="fw-bold">Playtime: </span>
-                {gameData.playingtime} mins
-              </p>
+      <div className="container bg-white p-3 rounded min-vh-100">
+        {isLoading && (
+          <div className="position-absolute top-50 start-50 translate-middle">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
-          <div className="pt-3 col-9">
-            {" "}
-            <p className="mb-0">
-              <span className="fw-bold">Description: </span>
-            </p>
-            <p>
-              {gameData.description
-                .replace(/&quot;/g, '"')
-                .replace(/&#10;/g, "\r\n")
-                .replace(/&rsquo;/g, "'")
-                .replace(/&mdash;/g, "—")}
-            </p>
-          </div>
-          {user && (
-            <div className="text-center m-2">
-              {error &&
-                typeof error === "object" &&
-                error.map((singleError: string, index) => {
-                  return (
-                    <div key={index} className="fs-5 text text-danger mt-2">
-                      {singleError}
-                    </div>
-                  );
-                })}{" "}
-              <button
-                type="button"
-                className="btn btn-primary "
-                data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop"
-              >
-                Add Game to your list
-              </button>
+        )}
+        {gameData && (
+          <>
+            <h1>{gameData.names[0].value}</h1>
+            <div className="row">
+              <img
+                className="img-fluid rounded col-5 row-5"
+                src={gameData.image}
+                alt=""
+              />
+              <div className="col d-flex flex-column justify-content-around">
+                <p>
+                  <span className="fw-bold">Minimum Players: </span>
+                  {gameData.minplayers}
+                </p>
+                <p>
+                  <span className="fw-bold">Maximum Players: </span>
+                  {gameData.maxplayers}
+                </p>
+                <p>
+                  <span className="fw-bold">Playtime: </span>
+                  {gameData.playingtime} mins
+                </p>
+              </div>
             </div>
-          )}
-        </div>
-      )}
+            <div className="pt-3 col-9">
+              {" "}
+              <p className="mb-0">
+                <span className="fw-bold">Description: </span>
+              </p>
+              <p>
+                {gameData.description
+                  .replace(/&quot;/g, '"')
+                  .replace(/&#10;/g, "\r\n")
+                  .replace(/&rsquo;/g, "'")
+                  .replace(/&mdash;/g, "—")}
+              </p>
+            </div>
+
+            {user && (
+              <div className="text-center m-2">
+                {error &&
+                  typeof error === "object" &&
+                  error.map((singleError: string, index) => {
+                    return (
+                      <div key={index} className="fs-5 text text-danger mt-2">
+                        {singleError}
+                      </div>
+                    );
+                  })}{" "}
+                <button
+                  type="button"
+                  className="btn btn-primary "
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                >
+                  Add Game to your list
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
       {/* Modal */}
       <div
         className="modal fade"
