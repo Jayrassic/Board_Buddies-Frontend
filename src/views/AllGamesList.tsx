@@ -39,9 +39,6 @@ export default function AllGamesList() {
   // Fetches games list from API
   useEffect(() => {
     async function fetchGames() {
-      setDisplayedGames(null);
-      setIsLoading(true);
-      setError(null);
       if (id !== undefined) {
         if (user) {
           const response = await fetch(`http://localhost:3000/games/${id}`, {
@@ -57,6 +54,7 @@ export default function AllGamesList() {
           if (response.ok) {
             setError(null);
             dispatch({ type: "SET_GAMES", payload: json });
+            setDisplayedGames(json);
             setIsLoading(false);
           }
         } else {
@@ -76,6 +74,7 @@ export default function AllGamesList() {
           if (response.ok) {
             setError(null);
             dispatch({ type: "SET_GAMES", payload: json });
+            setDisplayedGames(json);
             setIsLoading(false);
           }
         } catch (err) {
@@ -92,7 +91,6 @@ export default function AllGamesList() {
     if (games) {
       sortDispatch({ type: "Newest Additions", payload: games });
     }
-    setDisplayedGames(games);
   }, [games]);
 
   // Controls events for sorting onChange.
@@ -135,7 +133,7 @@ export default function AllGamesList() {
     }
   };
 
-  //Handler function for when filter button is pushed. Uses the selected names to search the sortedData array.
+  // Handler function for when filter button is pushed. Uses the selected names to search the sortedData array.
   const filterNames = useMemo(() => {
     if (sortedGames) {
       const newArray = [...sortedGames];
