@@ -26,6 +26,8 @@ export default function sortReducer(
       return sortFunctions.sortMaxPlayersAscending(action.payload);
     case "Max Descend":
       return sortFunctions.sortMaxPlayersDescending(action.payload);
+    case "Newest Additions":
+      return sortFunctions.sortDateAddedAscending(action.payload);
 
     default:
       return state;

@@ -105,3 +105,22 @@ export function sortMaxPlayersAscending(data: GamesType[]) {
 export function sortMaxPlayersDescending(data: GamesType[]) {
   return sortMaxPlayersAscending(data).reverse();
 }
+
+// Sorts the original array by minPlayers number of players in acceding order
+export function sortDateAddedAscending(data: GamesType[]) {
+  const newData = [...data];
+
+  newData.sort((a, b) => {
+    if (a.dateAdded < b.dateAdded) {
+      return 1;
+    }
+
+    if (a.dateAdded > b.dateAdded) {
+      return -1;
+    }
+
+    return 0;
+  });
+
+  return newData;
+}
