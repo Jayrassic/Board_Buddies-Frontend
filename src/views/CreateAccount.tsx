@@ -30,6 +30,7 @@ export default function CreateAccount() {
                 placeholder="Name show to all users"
                 onChange={(e) => setUserName(e.target.value)}
                 value={userName}
+                autoComplete="on"
                 required
               />
             </div>
@@ -43,6 +44,7 @@ export default function CreateAccount() {
                 placeholder="example@email.com"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
+                autoComplete="on"
                 required
               />
             </div>
@@ -55,6 +57,7 @@ export default function CreateAccount() {
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
+                autoComplete="on"
                 required
               />
             </div>

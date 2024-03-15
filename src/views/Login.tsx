@@ -21,10 +21,12 @@ export default function LoginPage(): React.JSX.Element {
               Email:{" "}
             </label>
             <input
+              id="email"
               className="form-control"
               type="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              autoComplete="on"
               required
             />
           </div>
@@ -34,10 +36,12 @@ export default function LoginPage(): React.JSX.Element {
               Password:{" "}
             </label>
             <input
+              id="password"
               className="form-control"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              autoComplete="on"
               required
             />
           </div>
