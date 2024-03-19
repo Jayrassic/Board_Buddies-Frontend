@@ -2,7 +2,7 @@ import { UserTokenType, UserType } from "../models/global";
 
 export type ActionType =
   | { type: "LOGIN"; payload: UserTokenType }
-  | { type: "LOGOUT"; payload: UserTokenType };
+  | { type: "LOGOUT"; payload: UserTokenType | null };
 
 export const authReducer = (state: UserType, action: ActionType): UserType => {
   switch (action.type) {

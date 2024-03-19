@@ -5,7 +5,7 @@ export function useLogout(): { logout: () => void } {
 
   function logout(): void {
     localStorage.removeItem("user");
-    dispatch({ type: "LOGOUT", payload: { user: null } });
+    dispatch({ type: "LOGOUT", payload: null });
   }
   return { logout };
 }
