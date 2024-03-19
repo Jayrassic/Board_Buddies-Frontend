@@ -20,14 +20,19 @@ export default function GameTable({
       return;
     }
     if (user) {
-      const response = await fetch("http://localhost:3000/games", {
-        method: "DELETE",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await fetch(
+        "https://boardbuddies-api-production.up.railway.app/games",
+        {
+          method: "DELETE",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          mode: "cors",
+          credentials: "include",
+        }
+      );
       const json: GamesType = await response.json();
 
       if (response.ok) {

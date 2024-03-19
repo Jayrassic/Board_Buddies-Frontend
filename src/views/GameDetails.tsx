@@ -70,14 +70,19 @@ export default function GameDetails() {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/games", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await fetch(
+        "https://boardbuddies-api-production.up.railway.app/games",
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          mode: "cors",
+          credentials: "include",
+        }
+      );
 
       const json = await response.json();
 

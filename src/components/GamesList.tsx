@@ -41,9 +41,14 @@ export default function GamesList() {
     async function fetchGames() {
       if (id !== undefined) {
         if (user) {
-          const response = await fetch(`http://localhost:3000/games/${id}`, {
-            headers: { Authorization: `Bearer ${user.token}` },
-          });
+          const response = await fetch(
+            `https://boardbuddies-api-production.up.railway.app/games/${id}`,
+            {
+              headers: { Authorization: `Bearer ${user.token}` },
+              mode: "cors",
+              credentials: "include",
+            }
+          );
           const json = await response.json();
 
           if (response.status === 401 || response.status === 404) {
@@ -63,7 +68,13 @@ export default function GamesList() {
         }
       } else {
         try {
-          const response = await fetch("http://localhost:3000/games/");
+          const response = await fetch(
+            "https://boardbuddies-api-production.up.railway.app/games/",
+            {
+              mode: "cors",
+              credentials: "include",
+            }
+          );
           const json = await response.json();
 
           if (!response.ok) {
