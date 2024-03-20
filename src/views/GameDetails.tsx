@@ -80,7 +80,6 @@ export default function GameDetails() {
             Authorization: `Bearer ${user.token}`,
           },
           mode: "cors",
-          credentials: "include",
         }
       );
 

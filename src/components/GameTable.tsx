@@ -30,7 +30,6 @@ export default function GameTable({
             Authorization: `Bearer ${user.token}`,
           },
           mode: "cors",
-          credentials: "include",
         }
       );
       const json: GamesType = await response.json();
