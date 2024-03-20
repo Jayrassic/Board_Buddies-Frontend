@@ -15,11 +15,14 @@ export function useCreateAccount() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3000/users/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, userName }),
-      });
+      const response = await fetch(
+        "https://boardbuddies.netlify.app/users/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, userName }),
+        }
+      );
       const json = await response.json();
 
       if (!response.ok) {

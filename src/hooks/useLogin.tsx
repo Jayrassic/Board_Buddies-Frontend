@@ -11,11 +11,14 @@ export function useLogin() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3000/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://boardbuddies.netlify.app/users/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       const json = await response.json();
 
       if (!response.ok) {
