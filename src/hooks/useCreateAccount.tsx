@@ -16,7 +16,7 @@ export function useCreateAccount() {
 
     try {
       const response = await fetch(
-        "https://boardbuddies.netlify.app/users/signup",
+        "https://boardbuddies-api-production.up.railway.app/users/signup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
