@@ -33,7 +33,6 @@ export default function Nav(): React.JSX.Element {
 
         <div className="collapse navbar-collapse" id="navbarToggler">
           {user && (
-            // <div className="d-flex align-items-center gap-4">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <p className=" navbar-text text-white m-0 pe-4">
@@ -42,12 +41,22 @@ export default function Nav(): React.JSX.Element {
               </li>
               <li className="nav-item">
                 <Link className="nav-link " to="/" onClick={logoutHandler}>
-                  LogOut
+                  <span
+                    data-bs-toggle={window.innerWidth > 769 ? " " : "collapse"}
+                    data-bs-target="#navbarToggler"
+                  >
+                    LogOut
+                  </span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link " to={`/user/${user.userName}`}>
-                  Your Games
+                <Link to={`/user/${user.userName}`} className="nav-link ">
+                  <span
+                    data-bs-toggle={window.innerWidth > 769 ? " " : "collapse"}
+                    data-bs-target="#navbarToggler"
+                  >
+                    Your Games
+                  </span>
                 </Link>
               </li>
             </ul>
@@ -56,12 +65,22 @@ export default function Nav(): React.JSX.Element {
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <Link className="nav-link" to="/create_account">
-                  Create Account
+                  <span
+                    data-bs-toggle={window.innerWidth > 769 ? " " : "collapse"}
+                    data-bs-target="#navbarToggler"
+                  >
+                    Create Account
+                  </span>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/login">
-                  Log In
+                  <span
+                    data-bs-toggle={window.innerWidth > 769 ? " " : "collapse"}
+                    data-bs-target="#navbarToggler"
+                  >
+                    Log In
+                  </span>
                 </Link>
               </li>
             </ul>
