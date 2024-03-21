@@ -24,8 +24,6 @@ export default function LoginPage(): React.JSX.Element {
               id="email"
               className="form-control"
               type="email"
-              minLength={2}
-              maxLength={15}
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               autoComplete="on"
