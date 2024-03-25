@@ -16,11 +16,11 @@ export default function CreateAccount() {
     <div className="bg-secondary-subtle d-flex justify-content-center align-items-center min-vh-100">
       <div className=" col-10 col-lg-4 bg-white p-4 rounded">
         <form className="centered" onSubmit={handleSubmit}>
-          <h1 className="mb-3">Create an account</h1>
+          <h1 className="mb-3 fw-bold">Create an account</h1>
           <div className="login-form centered">
             <div className="input-box mb-3">
-              <label className="form-label" htmlFor="userName">
-                UserName:{" "}
+              <label className="form-label fw-bold fs-5" htmlFor="userName">
+                User Name:{" "}
               </label>
               <input
                 className="form-control"
@@ -37,7 +37,9 @@ export default function CreateAccount() {
               />
             </div>
             <div className="input-box mb-3">
-              <label htmlFor="email">Email: </label>
+              <label className="form-label fw-bold fs-5" htmlFor="email">
+                Email:{" "}
+              </label>
               <input
                 className="form-control"
                 type="email"
@@ -51,7 +53,13 @@ export default function CreateAccount() {
               />
             </div>
             <div className="input-box mb-3">
-              <label htmlFor="password">Password: </label>
+              <label className="form-label fw-bold fs-5" htmlFor="password">
+                Password:{" "}
+                <span className="fs-6 fw-normal">
+                  * Must be 8 charters long and include a capital, symbol, and
+                  number *
+                </span>
+              </label>
               <input
                 className="form-control"
                 type="password"

@@ -15,9 +15,9 @@ export default function LoginPage(): React.JSX.Element {
     <div className="bg-secondary-subtle d-flex justify-content-center align-items-center min-vh-100">
       <div className=" col-10 col-lg-4 bg-white p-4 rounded">
         <form className="centered" onSubmit={handleSubmit}>
-          <h1 className="mb-3">Login</h1>
+          <h1 className="mb-3 fw-bold">Login</h1>
           <div className="input-box mb-3">
-            <label className="form-label" htmlFor="email">
+            <label className="form-label fw-bold fs-5" htmlFor="email">
               Email:{" "}
             </label>
             <input
@@ -32,7 +32,7 @@ export default function LoginPage(): React.JSX.Element {
           </div>
           <div className="invalid-feedback">Please input a valid email</div>
           <div className="input-box mb-3">
-            <label className="form-label" htmlFor="password">
+            <label className="form-label fw-bold fs-5" htmlFor="password">
               Password:{" "}
             </label>
             <input
