@@ -71,7 +71,7 @@ export default function GameDetails() {
 
     try {
       const response = await fetch(
-        "https://boardbuddies-api-production.up.railway.app/games",
+        "https://board-buddies-backend.fly.dev/games",
         {
           method: "POST",
           body: JSON.stringify(data),

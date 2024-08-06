@@ -68,7 +68,7 @@ export default function GamesList() {
       } else {
         try {
           const response = await fetch(
-            "https://boardbuddies-api-production.up.railway.app/games/",
+            "https://board-buddies-backend.fly.dev/games/",
             {
               mode: "cors",
             }
