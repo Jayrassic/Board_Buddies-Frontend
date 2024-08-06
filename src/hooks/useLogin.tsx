@@ -12,7 +12,7 @@ export function useLogin() {
 
     try {
       const response = await fetch(
-        "https://boardbuddies-api-production.up.railway.app/users/login",
+        "https://board-buddies-backend.fly.dev/users/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

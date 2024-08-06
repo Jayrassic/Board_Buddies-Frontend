@@ -16,7 +16,7 @@ export function useCreateAccount() {
 
     try {
       const response = await fetch(
-        "https://boardbuddies-api-production.up.railway.app/users/signup",
+        "https://board-buddies-backend.fly.dev/users/signup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

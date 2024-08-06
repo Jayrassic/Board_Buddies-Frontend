@@ -21,7 +21,7 @@ export default function GameTable({
     }
     if (user) {
       const response = await fetch(
-        "https://boardbuddies-api-production.up.railway.app/games",
+        "https://board-buddies-backend.fly.dev/games",
         {
           method: "DELETE",
           body: JSON.stringify(data),

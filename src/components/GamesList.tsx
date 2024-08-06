@@ -42,7 +42,7 @@ export default function GamesList() {
       if (id !== undefined) {
         if (user) {
           const response = await fetch(
-            `https://boardbuddies-api-production.up.railway.app/games/${id}`,
+            `https://board-buddies-backend.fly.dev/games/${id}`,
             {
               headers: { Authorization: `Bearer ${user.token}` },
               mode: "cors",
