@@ -7,7 +7,7 @@ export default function Error404() {
       <div className="bg-secondary-subtle min-vh-100">
         <div className="container bg-white p-3 rounded min-vh-100 d-flex justify-content-center align-items-center min-vh-100 flex-column">
           <img
-            src="/src/assets/IMG_9191.jpg"
+            src="/IMG_9191.jpg"
             alt="Regal Pup"
             className="img-fluid rounded-4"
           />
